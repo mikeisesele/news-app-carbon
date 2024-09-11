@@ -1,0 +1,51 @@
+name: Android CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Check Code Formatting with Spotless
+        run: ./gradlew spotlessCheck
+      - name: Detect Code smells
+        run: ./gradlew detekt
+      - name: Build with Gradle
+        run: ./gradlew build
+
+      - name: Assemble Debug APK
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK as Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app-debug
+          path: app/build/outputs/
+
+      # - name: Deploy to Firebase App Distribution
+      #   run: |
+      #     curl -sLo firebase https://firebase.tools/bin/linux/latest
+      #     chmod +x firebase
+      #     ./firebase auth:token:store "$(cat $FIREBASE_TOKEN_FILE)"
+      #     ./firebase appdistribution:distribute app/build/outputs/*.apk --app $FIREBASE_APP_ID --groups testers --token $FIREBASE_AUTH_TOKEN
+      #   env:
+      #     FIREBASE_TOKEN_FILE: ${{ secrets.FIREBASE_TOKEN_FILE }}
+      #     FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      #     FIREBASE_AUTH_TOKEN: ${{ secrets.FIREBASE_AUTH_TOKEN }}
+
