@@ -12,17 +12,17 @@ plugins {
 
 dependencies {
 
-    implementation(project(":core:ui"))
+    implementation(project(":core:base"))
     implementation(project(":core:common"))
-    api(project(":core:base"))
-    implementation(project(":core:securestore"))
-    testImplementation(project(":core:testing"))
+    implementation(project(":core:network"))
+    implementation(project(":core:ui"))
     implementation(project(":feature:home"))
+    implementation(project(":feature:news"))
+    testImplementation(project(":core:testing"))
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(platform(libs.compose.bom))
-    implementation(libs.navcompose)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

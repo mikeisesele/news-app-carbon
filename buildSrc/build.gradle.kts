@@ -7,7 +7,9 @@ val libs = the<LibrariesForLibs>()
 plugins {
     `kotlin-dsl`
     `kotlin-dsl-precompiled-script-plugins`
+    id("org.jetbrains.kotlin.android") version libs.versions.org.jetbrains.kotlin.android190.get() apply false
     id("com.diffplug.spotless") version libs.versions.plugin.spotless.get() apply false
+    id("org.jetbrains.kotlin.plugin.compose") version libs.versions.kotlinComposePlugin.get() apply false
     id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlinSerializationPlugin.get() apply false
 }
 

@@ -3,7 +3,7 @@ object Configuration {
 }
 
 data class DefaultConfig(
-    val packageName: String = "com.michael.baseapp",
+    val packageName: String = "com.michael.newsappcarbon",
     val targetSdk: Int = 34,
     val compileSdk: Int = 34,
     val minSdk: Int = 26,

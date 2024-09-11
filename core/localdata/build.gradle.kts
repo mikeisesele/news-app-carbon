@@ -14,7 +14,7 @@ dependencies {
     kapt(libs.hilt.android.compiler)
 
     annotationProcessor(libs.room.compiler)
-    implementation(libs.room.runtime)
+    api(libs.room.runtime)
     kapt(libs.kapt.room.compiler)
-    implementation(libs.room.ktx)
+    api(libs.room.ktx)
 }

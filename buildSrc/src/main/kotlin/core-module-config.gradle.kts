@@ -13,8 +13,6 @@ plugins {
     kotlin("kapt")
 }
 
-
-
 spotlessConfig(libs.versions.spotless.ktlint)
 
 android {

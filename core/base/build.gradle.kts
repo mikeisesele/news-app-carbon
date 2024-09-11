@@ -19,11 +19,13 @@ dependencies {
     api(libs.core.ktx)
     api(libs.lifecycle.runtime.ktx)
     api(libs.lifecycle.viewmodel.ktx)
+    api(libs.compose.runtime)
+    api(libs.kotlinxSerializationJson)
+    api(libs.hilt.navigation.compose)
+    api(libs.navcompose)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-
-    implementation(libs.compose.runtime)
 
     detektPlugins(libs.detekt.formatter)
     providetestDependencies(libs)

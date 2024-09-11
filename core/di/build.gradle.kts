@@ -1,8 +1,6 @@
 plugins {
     `core-module-config`
     alias(libs.plugins.hilt.plugin)
-    alias(libs.plugins.kotlinCompose)
-
 }
 
 android {
@@ -12,15 +10,11 @@ android {
 dependencies {
     implementation(project(":core:base"))
     implementation(project(":core:common"))
+    implementation(project(":core:network"))
     implementation(project(":core:localdata"))
     implementation(project(":core:securestore"))
 
     implementation(libs.hilt.android)
     implementation(libs.room.ktx)
     kapt(libs.hilt.android.compiler)
-
-    api(libs.retrofit)
-    api(libs.retrofit.moshi)
-    api(libs.logging.interceptor)
-    api(libs.moshi)
 }

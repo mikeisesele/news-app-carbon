@@ -14,8 +14,6 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-    api(libs.kotlinxSerializationJson)
-
     api(libs.retrofit)
     api(libs.retrofit.moshi)
     api(libs.logging.interceptor)
