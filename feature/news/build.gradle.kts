@@ -1,23 +1,21 @@
 plugins {
-    `core-module-config`
+    `feature-module-config`
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlinCompose)
 }
 
-android {
-    namespace = "com.michael.core.network"
-}
 
 dependencies {
     implementation(project(":core:base"))
+    implementation(project(":core:common"))
     implementation(project(":core:testing"))
+    implementation(project(":core:ui"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-    api(libs.kotlinxSerializationJson)
+}
 
-    api(libs.retrofit)
-    api(libs.retrofit.moshi)
-    api(libs.logging.interceptor)
-    api(libs.moshi)
+android {
+    namespace = "com.michael.feature.news"
 }

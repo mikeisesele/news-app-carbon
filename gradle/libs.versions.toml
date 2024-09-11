@@ -51,6 +51,7 @@ org-jetbrains-kotlin-android190 = "2.0.0"
 
 kotlinxSerializationJson = "1.7.1"
 kotlinComposePlugin = "2.0.0"
+appcompat = "1.7.0"
 
 [libraries]
 
@@ -136,6 +137,7 @@ androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version 
 androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version = "1.5.4" }
 
 kotlinxSerializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 
 
 [plugins]
@@ -145,4 +147,5 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 com-android-library = { id = "com.android.library", version.ref = "agp" }
 kotlinCompose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinComposePlugin" }
 org-jetbrains-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "org-jetbrains-kotlin-android190" }
+android-application = { id = "com.android.application", version.ref = "agp" }
 
