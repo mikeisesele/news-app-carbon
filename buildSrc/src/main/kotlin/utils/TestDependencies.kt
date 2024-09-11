@@ -6,6 +6,7 @@ import gradle.kotlin.dsl.accessors._2983b8eb6a448082a49ee3cd9c53d2a6.testRuntime
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 
+
 fun DependencyHandlerScope.providetestDependencies(libs: LibrariesForLibs) {
     with(this) {
         testApi(libs.junit)

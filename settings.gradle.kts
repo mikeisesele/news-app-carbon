@@ -13,7 +13,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "BaseApp"
+rootProject.name = "NewsAppCarbon"
 include(":app")
 include(":core")
 include(":core:base")

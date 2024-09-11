@@ -1,6 +1,8 @@
 plugins {
     `feature-module-config`
     alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlinCompose)
 }
 
 dependencies {

@@ -4,6 +4,7 @@ import utils.providetestDependencies
 plugins {
     `app-module-config`
     alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.kotlinCompose)
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
@@ -21,7 +22,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(platform(libs.compose.bom))
-    implementation(libs.compose.navigation)
+    implementation(libs.navcompose)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

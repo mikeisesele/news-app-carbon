@@ -3,10 +3,12 @@ import utils.composeConfiguration
 plugins {
     `core-module-config`
     alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.kotlinCompose)
 }
 
 android {
-    namespace = "com.nb.benefitspro.core.ui"
+    namespace = "com.michael.core.ui"
     testFixtures {
         enable = true
     }
@@ -20,7 +22,7 @@ dependencies {
     implementation(libs.hilt.android)
     api(libs.compose.material3)
     api(libs.google.material)
-
+    api(libs.kotlinxSerializationJson)
     api(libs.hilt.navigation.compose)
     kapt(libs.hilt.android.compiler)
     api(libs.core.splashscreen)

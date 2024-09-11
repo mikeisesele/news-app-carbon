@@ -4,13 +4,9 @@ buildscript {
     repositories {
         mavenCentral()
     }
-    dependencies {
-        classpath(libs.firebase.crashlytics.gradle)
-        classpath("com.google.gms:google-services:4.3.15")
-    }
 }
 
-val packageName by extra("com.michael.baseapp")
+val packageName by extra("com.michael.newsappcarbon")
 
 tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
@@ -19,6 +15,8 @@ tasks.register("clean", Delete::class) {
 plugins {
     alias(libs.plugins.hilt.plugin) apply false
     alias(libs.plugins.ksp.plugin) apply false
+    alias(libs.plugins.kotlinCompose) apply false
+    alias(libs.plugins.kotlinSerialization) apply false
 }
 
 subprojects {

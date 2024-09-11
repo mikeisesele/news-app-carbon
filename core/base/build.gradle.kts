@@ -4,6 +4,7 @@ import utils.providetestDependencies
 plugins {
     `core-module-config`
     alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.kotlinCompose)
 }
 
 android {

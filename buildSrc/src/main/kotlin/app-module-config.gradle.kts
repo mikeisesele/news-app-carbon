@@ -39,9 +39,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.firebase.crashlytics)
     coreLibraryDesugaring(libs.desugar)
-
     detektPlugins(libs.detekt.formatter)
 }
 

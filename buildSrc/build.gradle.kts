@@ -8,6 +8,7 @@ plugins {
     `kotlin-dsl`
     `kotlin-dsl-precompiled-script-plugins`
     id("com.diffplug.spotless") version libs.versions.plugin.spotless.get() apply false
+    id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlinSerializationPlugin.get() apply false
 }
 
 repositories {
@@ -36,6 +37,7 @@ dependencies {
      * https://github.com/gradle/gradle/issues/15383#issuecomment-779893192
      */
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+
     implementation(libs.android.gradle)
     implementation(libs.kotlin.gradle)
     implementation(libs.detekt.plugin)

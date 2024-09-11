@@ -8,6 +8,7 @@ plugins {
     id("com.android.library")
     id("com.diffplug.spotless")
     id("io.gitlab.arturbosch.detekt")
+    id("kotlin-kapt")
     kotlin("android")
     kotlin("kapt")
 }
@@ -21,6 +22,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.androidx.core.testing)
