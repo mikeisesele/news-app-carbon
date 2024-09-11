@@ -6,8 +6,6 @@ import com.michael.base.providers.DispatcherProvider
 import com.michael.baseapp.mainscreen.contract.MainSideEffect
 import com.michael.baseapp.mainscreen.contract.MainState
 import com.michael.baseapp.mainscreen.contract.MainViewAction
-import com.michael.baseapp.navigation.ScreenSpec
-import com.michael.baseapp.navigation.destinations
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -19,22 +17,11 @@ class MainScreenViewModel @Inject constructor(
     dispatcherProvider,
 ) {
 
-    init {
-        updateState { state ->
-            state.copy(
-                screens = destinations,
-            )
-        }
-    }
+
     override fun onViewAction(viewAction: MainViewAction) {
-        when (viewAction) {
-            is MainViewAction.DestinationClicked -> navigate(viewAction.screenSpec)
-        }
+//        when (viewAction) {
+//           // TODO
+//        }
     }
 
-    private fun navigate(screenSpec: ScreenSpec) {
-        dispatchViewEvent(
-            ViewEvent.Effect(MainSideEffect.NavigateToDestination(screenSpec)),
-        )
-    }
 }

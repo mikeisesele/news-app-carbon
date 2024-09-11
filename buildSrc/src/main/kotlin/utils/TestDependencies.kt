@@ -1,12 +1,8 @@
 package utils
 
-import gradle.kotlin.dsl.accessors._e8ac5e837605381d1e3b56097e86cd58.androidApis
-import gradle.kotlin.dsl.accessors._e8ac5e837605381d1e3b56097e86cd58.androidTestImplementation
-import gradle.kotlin.dsl.accessors._e8ac5e837605381d1e3b56097e86cd58.api
-import gradle.kotlin.dsl.accessors._e8ac5e837605381d1e3b56097e86cd58.implementation
-import gradle.kotlin.dsl.accessors._e8ac5e837605381d1e3b56097e86cd58.testApi
-import gradle.kotlin.dsl.accessors._e8ac5e837605381d1e3b56097e86cd58.testImplementation
-import gradle.kotlin.dsl.accessors._e8ac5e837605381d1e3b56097e86cd58.testRuntimeOnly
+import gradle.kotlin.dsl.accessors._2983b8eb6a448082a49ee3cd9c53d2a6.api
+import gradle.kotlin.dsl.accessors._2983b8eb6a448082a49ee3cd9c53d2a6.testApi
+import gradle.kotlin.dsl.accessors._2983b8eb6a448082a49ee3cd9c53d2a6.testRuntimeOnly
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.kotlin.dsl.DependencyHandlerScope
 

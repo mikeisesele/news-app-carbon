@@ -17,10 +17,10 @@ import javax.inject.Singleton
 
 /**
  * This class is used as a wrapper around a [Response] which adds additional functionality that is
- * needed, such as analytics event logging via [EventLogger].
+ * needed
  * This is used as part of the REST [RefreshTokenApi], and can be used with further REST apis.
  * After a call has been made we appropriately map an [ApiResult.Success] or [ApiResult.Failure],
- * and if needed log an analytics event.
+ *
  *
  * @param eventLogger an implementation of an [EventLogger] that logs [AnalyticsEvent]s
  * @param adapter a [JsonAdapter] which parses errors returned into a [RetrofitApiError]

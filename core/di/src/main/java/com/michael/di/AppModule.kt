@@ -20,8 +20,4 @@ object AppModule {
     @Provides
     fun providesResourceProvider(resourceProvider: StringProviderImpl): StringProvider =
         resourceProvider
-
-    @Provides
-    fun provideErrorHandler(errorHandler: com.michael.common.ErrorHandler): com.michael.base.providers.ErrorHandler =
-        errorHandler
 }
