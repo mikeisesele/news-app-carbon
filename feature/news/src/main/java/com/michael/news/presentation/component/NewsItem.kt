@@ -14,14 +14,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.michael.news.domain.model.NewsFeedUiModel
+import com.michael.news.presentation.model.NewsFeedUiModel
+import com.michael.ui.extensions.clickable
 import com.michael.ui.utils.boldTexStyle
 import com.michael.ui.utils.mediumTexStyle
 
 @Composable
-internal fun NewsItem(article: NewsFeedUiModel) {
+internal fun NewsItem(article: NewsFeedUiModel, onNewsCardClick: (Int) -> Unit) {
     Card(
         modifier = Modifier
+            .clickable { onNewsCardClick(article.id) }
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(8.dp)),

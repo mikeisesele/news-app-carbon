@@ -4,8 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.toRoute
+import com.michael.common.ImmutableList
 import com.michael.news.presentation.NewsFeedScreen
 import com.michael.news.presentation.NewsFeedScreenDestination
+import com.michael.newsdetail.presentation.NewsDetailScreen
+import com.michael.newsdetail.presentation.NewsDetailScreenDestination
 
 
 @Composable
@@ -14,48 +18,16 @@ fun Navigator(
 ) {
     NavHost(navController = navController, startDestination = NewsFeedScreenDestination) {
         composable<NewsFeedScreenDestination> {
-            NewsFeedScreen(onBackClick = navController::navigateUp)
+            NewsFeedScreen(onBackClick = navController::navigateUp, onNewsCardClick = {
+                navController.navigate(NewsDetailScreenDestination(it))
+            })
+        }
+
+
+        composable<NewsDetailScreenDestination> {
+            val args = it.toRoute<NewsDetailScreenDestination>()
+           NewsDetailScreen(args.newsId, onBackClick = { navController.popBackStack() })
         }
     }
 
 }
-
-fun handleEventScreenBackClick(navController: NavHostController) {
-    if (navController.previousBackStackEntry == null) {
-        // No previous back stack entry, navigate to home screen
-        navController.navigate(NewsFeedScreenDestination) {
-            // Clear back stack to prevent going back to the event screen
-            popUpTo(navController.graph.startDestinationId) {
-                saveState = false
-            }
-        }
-    } else {
-        // Navigate up in the stack
-        navController.navigateUp()
-    }
-}
-
-//        fun handleSystemBackClick(
-//            navController: NavHostController,
-//            topLevelDestinations: ImmutableList<TopLevelDestination>,
-//        ) {
-//            val cleanedCurrentRoute = navController.currentDestination?.route?.cleanRoute()
-//            val cleanedTopLevelRoutes =
-//                topLevelDestinations.map { it.destination.toString().cleanRoute() }
-//
-//            if (cleanedCurrentRoute in cleanedTopLevelRoutes) {
-//                if (cleanedCurrentRoute?.cleanRoute() == EventFeedScreenDestination.toString()
-//                        .cleanRoute()
-//                ) {
-//                    navController.popBackStack()
-//                } else {
-//                    navController.navigate(EventFeedScreenDestination) {
-//                        popUpTo(navController.graph.startDestinationId) {
-//                            inclusive = true
-//                        }
-//                    }
-//                }
-//            } else {
-//                navController.navigateUp()
-//            }
-//        }
