@@ -3,7 +3,6 @@ package utils
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.JavaVersion
-import org.gradle.kotlin.dsl.PluginDependenciesSpecScope
 
 @Suppress("UnstableApiUsage")
 fun LibraryExtension.defaultAndroidConfig() {
@@ -38,6 +37,11 @@ fun BaseAppModuleExtension.defaultAndroidConfig() {
         targetSdk = Configuration.defaultConfig.targetSdk
         versionCode = Configuration.defaultConfig.versionCode
         versionName = Configuration.defaultConfig.versionName
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary = true
+        }
     }
 
     buildTypes {
@@ -53,5 +57,10 @@ fun BaseAppModuleExtension.defaultAndroidConfig() {
     }
     buildFeatures {
         buildConfig = true
+    }
+    packaging {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+        }
     }
 }
