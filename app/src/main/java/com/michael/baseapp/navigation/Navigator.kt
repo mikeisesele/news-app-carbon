@@ -10,7 +10,6 @@ import com.michael.news.presentation.NewsFeedScreenDestination
 import com.michael.newsdetail.presentation.NewsDetailScreen
 import com.michael.newsdetail.presentation.NewsDetailScreenDestination
 
-
 @Composable
 fun Navigator(
     navController: NavHostController,
@@ -27,5 +26,4 @@ fun Navigator(
            NewsDetailScreen(args.newsId, onBackClick = { navController.popBackStack() })
         }
     }
-
 }

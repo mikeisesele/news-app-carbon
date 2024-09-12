@@ -8,8 +8,8 @@ import com.michael.news.domain.NewsFeedRepository
 import com.michael.newsdetail.domain.contract.NewsDetailSideEffect
 import com.michael.newsdetail.domain.contract.NewsDetailViewAction
 import com.michael.newsdetail.domain.mapper.toDetailUiModel
-import com.michael.testfakedatafactory.TestFakeDataFactory
 import com.michael.testfakedatafactory.TestFakeDataFactory.fakeNewsDomainModel
+import com.michael.testfakedatafactory.TestFakeDataFactory.fakeNewsDomainModelList
 import com.michael.testing.BaseTest
 import io.kotest.matchers.booleans.shouldBeFalse
 import io.kotest.matchers.nulls.shouldBeNull
@@ -30,14 +30,14 @@ class NewsDetailViewModelTest :BaseTest() {
 
     private val newsRepository: NewsFeedRepository = mockk {
         coEvery { getNewsFeed() } returns flowOf(
-            TestFakeDataFactory.fakeNewsDomainModelList,
+            fakeNewsDomainModelList,
         )
-        coEvery { searchNewsFeed(any()) } returns flowOf(TestFakeDataFactory.fakeNewsDomainModelList)
+        coEvery { searchNewsFeed(any()) } returns flowOf(fakeNewsDomainModelList)
 
         coEvery { getNewsDetail(any()) } returns flowOf(
-            TestFakeDataFactory.fakeNewsDomainModel,
+            fakeNewsDomainModel,
         )
-        coEvery { searchNewsFeed(any()) } returns flowOf(TestFakeDataFactory.fakeNewsDomainModelList)
+        coEvery { searchNewsFeed(any()) } returns flowOf(fakeNewsDomainModelList)
     }
 
 
@@ -76,9 +76,9 @@ class NewsDetailViewModelTest :BaseTest() {
                 with(awaitItem()) { // news list has been loaded
                     newsDetail.shouldNotBeNull()
                     newsDetail.shouldBe(fakeNewsDomainModel.toDetailUiModel()) // mapping is successful
+                    newsDetail.id shouldBe 1
                 }
             }
-
         }
 
     @Test
@@ -94,7 +94,7 @@ class NewsDetailViewModelTest :BaseTest() {
                 awaitItem() // initial state
                 newsDetailViewModel.onViewAction(NewsDetailViewAction.GetNewsDetail(1))
                 awaitItem() // loading state
-                with(awaitItem()) { // error from reop
+                with(awaitItem()) { // error from repo
                     isLoading.shouldBeFalse()
                 }
             }

@@ -3,6 +3,7 @@ import org.gradle.kotlin.dsl.`kotlin-dsl`
 
 val libs = the<LibrariesForLibs>()
 
+// this is replacement to classpath gradle
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     `kotlin-dsl`

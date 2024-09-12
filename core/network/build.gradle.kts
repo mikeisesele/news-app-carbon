@@ -7,11 +7,11 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
+spotlessConfig(libs.versions.spotless.ktlint)
+
 val keystoreFile: File = project.rootProject.file("gradle.properties")
 val properties = Properties()
 properties.load(keystoreFile.inputStream())
-
-spotlessConfig(libs.versions.spotless.ktlint)
 
 val newsApiKey = properties.getProperty("NEWS_API_KEY") ?: ""
 val baseUrl = properties.getProperty("NEWS_API_BASE_URL") ?: ""

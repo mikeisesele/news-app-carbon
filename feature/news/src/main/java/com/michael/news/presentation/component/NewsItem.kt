@@ -40,7 +40,7 @@ internal fun NewsItem(article: NewsFeedUiModel, onNewsCardClick: (Int) -> Unit) 
         ) {
             Text(text = article.title, style = boldTexStyle(size = 16))
             Spacer(modifier = Modifier.height(8.dp))
-            Text(text = article.description, style = mediumTexStyle(size = 12))
+            Text(text = article.description, style = mediumTexStyle(size = 12), maxLines = 3)
             if (article.creator.isNotEmpty()) {
                 Text(
                     text = formatCreators(article.creator),
