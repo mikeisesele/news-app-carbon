@@ -1,5 +1,9 @@
 package com.michael.di
 
+import android.app.Application
+import com.michael.core.network.BuildConfig
+import com.michael.network.provider.NetworkStateProvider
+import com.michael.network.provider.NetworkStateProviderImpl
 import com.michael.network.service.NewsFeedApi
 import dagger.Module
 import dagger.Provides
@@ -32,7 +36,7 @@ object NetworkModule {
         builder.addInterceptor { chain ->
             val originalRequest: Request = chain.request()
             val requestWithApiKey: Request = originalRequest.newBuilder()
-                .addHeader("X-ACCESS-KEY", APIKEY)
+                .addHeader("X-ACCESS-KEY", BuildConfig.API_KEY)
                 .build()
             chain.proceed(requestWithApiKey)
         }
@@ -46,7 +50,7 @@ object NetworkModule {
         converterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BASEURL)
+            .baseUrl(BuildConfig.NEWS_API_BASE_URL)
             .client(okHttpClient.build())
             .addConverterFactory(converterFactory)
             .build()
@@ -63,8 +67,11 @@ object NetworkModule {
     fun provideApiService(retrofit: Retrofit): NewsFeedApi {
         return retrofit.create(NewsFeedApi::class.java)
     }
+
+    @Provides
+    fun provideNetworkMonitor(application: Application): NetworkStateProvider {
+        return NetworkStateProviderImpl(application)
+    }
 }
 
 private const val NETWORK_TIMEOUT = 30L
-private const val BASEURL = "https://newsdata.io/api/1/"
-private const val APIKEY = "pub_5324732474707aa61624d6f83145cf364f772"

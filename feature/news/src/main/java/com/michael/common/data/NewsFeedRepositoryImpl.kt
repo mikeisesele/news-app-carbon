@@ -1,12 +1,16 @@
 package com.michael.common.data
 
 import com.michael.base.providers.DispatcherProvider
+import com.michael.common.Constants.GET_NEWS_ERROR_LOG
+import com.michael.common.Constants.NO_INTERNET
+import com.michael.common.Constants.SEARCH_NEWS_ERROR_LOG
+import com.michael.easylog.logInline
 import com.michael.localdata.dao.NewsDao
 import com.michael.models.NewsFeedDomainModel
+import com.michael.network.provider.NetworkStateProvider
 import com.michael.network.service.NewsFeedApi
 import com.michael.news.domain.NewsFeedRepository
 import com.michael.news.domain.mappers.toEntity
-import com.michael.ui.extensions.asEmittedFlow
 import com.michael.ui.extensions.safeReturnableOperation
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -17,6 +21,7 @@ internal class NewsFeedRepositoryImpl @Inject constructor(
     private val apiService: NewsFeedApi,
     private val newsFeedDao: NewsDao,
     private val dispatcherProvider: DispatcherProvider,
+    private val networkStateProvider: NetworkStateProvider
 ) : NewsFeedRepository {
 
     override suspend fun getNewsFeed(): Flow<List<NewsFeedDomainModel>> = flow {
@@ -31,8 +36,15 @@ internal class NewsFeedRepositoryImpl @Inject constructor(
                     domainModel
                 }
             },
-            actionOnException = { throw it!! },
-            exceptionMessage = "getNewsFeed error"
+            actionOnException = {
+                val exception = if (!networkStateProvider.isConnected) {
+                    Exception(NO_INTERNET)
+                } else {
+                    it!!
+                }
+                throw exception
+            },
+            exceptionMessage = GET_NEWS_ERROR_LOG
         )
 
         emit(newsList ?: emptyList())
@@ -43,13 +55,20 @@ internal class NewsFeedRepositoryImpl @Inject constructor(
 
         val newsList = safeReturnableOperation(
             operation = {
-                val news = newsFeedDao.searchNews(query)
-                news.ifEmpty {
-                    apiService.getNewsFeed(searchParam = query).toEntity()
+                val searchDataResult = newsFeedDao.searchNews(query).ifEmpty {
+                    apiService.searchNewsFeed(searchParam = query).toEntity()
+                }
+                searchDataResult
+
+            },
+            actionOnException = {
+                throw if (!networkStateProvider.isConnected) {
+                    Exception(NO_INTERNET)
+                } else {
+                    it!!
                 }
             },
-            actionOnException = { throw it!! },
-            exceptionMessage = "searchNewsFeed error"
+            exceptionMessage = SEARCH_NEWS_ERROR_LOG
         )
 
         emit(newsList ?: emptyList())
