@@ -24,12 +24,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.michael.base.contract.ViewEvent
 import com.michael.common.displayToast
 import com.michael.easylog.logInline
+import com.michael.feature.news.R
 import com.michael.news.domain.contract.NewsFeedSideEffect
 import com.michael.news.domain.contract.NewsFeedViewAction
 import com.michael.news.presentation.component.AnimatedSearchBarComponent
@@ -48,7 +50,7 @@ import kotlinx.serialization.Serializable
 object NewsFeedScreenDestination
 
 @Composable
-fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
+fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, onNewsCardClick: (Int) -> Unit ) {
 
     val viewModel: NewsFeedViewModel = hiltViewModel()
     val state by rememberStateWithLifecycle(viewModel.state)
@@ -63,20 +65,19 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
         context = context
     )
 
-
     LaunchedEffect(Unit) {
         viewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
     }
 
     BaseScreen(
         state = state,
-        topAppBarContent = { ToolBarTitleComponent(text = "News Feed") },
+        topAppBarContent = { ToolBarTitleComponent(text = stringResource(R.string.news_feed)) },
         trailingIconOne = {
             ToolBarActionComponents(
                 modifier = Modifier.background(
                     color = MaterialTheme.colorScheme.primary,
                 ),
-                name = "Search",
+                name = stringResource(R.string.search),
                 onClick = { searchBarComponentVisible = !searchBarComponentVisible },
                 icon = Icons.Default.Search
             )
@@ -109,7 +110,7 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
             if (newsItems.isEmpty() && !state.isLoading ) {
                 CenteredColumn {
                     Text(
-                        text = "No articles found",
+                        text = stringResource(R.string.no_articles_found),
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(16.dp)
@@ -127,7 +128,7 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
                 ) {
 
                     items(newsItems) { article ->
-                        NewsItem(article) // Custom composable for each news item
+                        NewsItem(article = article, onNewsCardClick = onNewsCardClick) // Custom composable for each news item
                     }
                 }
             }
@@ -135,9 +136,8 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit) {
     }
 }
 
-
 @Composable
-fun InfiniteListHandler(
+private fun InfiniteListHandler(
     listState: LazyListState,
     loadMore: () -> Unit
 ) {
@@ -161,8 +161,6 @@ fun InfiniteListHandler(
         }
     }
 }
-
-
 
 
 @Composable

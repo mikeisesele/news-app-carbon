@@ -1,9 +1,9 @@
-package com.michael.news.di
+package com.michael.common.di
 
 import com.michael.base.providers.DispatcherProvider
 import com.michael.localdata.dao.NewsDao
 import com.michael.network.service.NewsFeedApi
-import com.michael.news.data.NewsFeedRepositoryImpl
+import com.michael.common.data.NewsFeedRepositoryImpl
 import com.michael.news.domain.NewsFeedRepository
 import dagger.Module
 import dagger.Provides

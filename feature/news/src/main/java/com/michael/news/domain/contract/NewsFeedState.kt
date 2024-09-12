@@ -4,7 +4,7 @@ import com.michael.base.contract.BaseState
 import com.michael.base.model.MessageState
 import com.michael.common.ImmutableList
 import com.michael.common.emptyImmutableList
-import com.michael.news.domain.model.NewsFeedUiModel
+import com.michael.news.presentation.model.NewsFeedUiModel
 
 internal data class NewsFeedState(
     override val isLoading: Boolean,

@@ -1,37 +1,26 @@
 package com.michael.news.presentation
 
-import androidx.lifecycle.viewModelScope
 import com.michael.base.contract.BaseViewModel
 import com.michael.base.contract.ViewEvent
 import com.michael.base.model.MessageState
 import com.michael.base.providers.DispatcherProvider
 import com.michael.common.toImmutableList
 import com.michael.easylog.ifNullSetDefault
-import com.michael.easylog.logInline
-import com.michael.news.data.NewsFeedRepositoryImpl
+import com.michael.models.NewsFeedDomainModel
+import com.michael.news.domain.NewsFeedRepository
+import com.michael.news.domain.contract.NewsFeedSideEffect
 import com.michael.news.domain.contract.NewsFeedState
 import com.michael.news.domain.contract.NewsFeedViewAction
 import com.michael.news.domain.mappers.toUiModel
-import com.michael.models.NewsFeedDomainModel
-import com.michael.news.domain.contract.NewsFeedSideEffect
 import com.michael.ui.extensions.collectBy
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 
 @HiltViewModel
 internal class NewsFeedViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
-    private val newsFeedRepository: NewsFeedRepositoryImpl
+    private val newsFeedRepository: NewsFeedRepository,
 ) : BaseViewModel<NewsFeedState, NewsFeedViewAction>(
     NewsFeedState.initialState,
     dispatcherProvider
