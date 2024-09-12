@@ -7,51 +7,24 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.AsyncImage
-import coil.request.ImageRequest
-import com.michael.common.toReadableDate
-import com.michael.easylog.logInline
 import com.michael.feature.news.R
 import com.michael.newsdetail.domain.contract.NewsDetailViewAction
 import com.michael.newsdetail.presentation.components.NewsDetailScreenHeader
@@ -63,11 +36,7 @@ import com.michael.ui.components.BaseScreen
 import com.michael.ui.components.ToolBarTitleComponent
 import com.michael.ui.extensions.clickable
 import com.michael.ui.extensions.rememberStateWithLifecycle
-import com.michael.ui.utils.boldTexStyle
-import com.michael.ui.utils.mediumTexStyle
 import kotlinx.serialization.Serializable
-import kotlin.math.max
-import kotlin.math.min
 
 @Serializable
 data class NewsDetailScreenDestination(val newsId: Int)
@@ -77,7 +46,7 @@ fun NewsDetailScreen(newsId: Int, modifier: Modifier = Modifier, onBackClick: ()
 
     val viewModel: NewsDetailViewModel = hiltViewModel()
     val state by rememberStateWithLifecycle(viewModel.state)
-
+    var isFullScreen by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.onViewAction(NewsDetailViewAction.GetNewsDetail(newsId))
@@ -86,8 +55,20 @@ fun NewsDetailScreen(newsId: Int, modifier: Modifier = Modifier, onBackClick: ()
     BaseScreen(
         modifier = modifier,
         state = state,
-        onBackClick = onBackClick,
-        onSystemBackClick = onBackClick,
+        onBackClick = {
+            handleOnBackClick(
+                isFullScreen = isFullScreen,
+                onBackClick = onBackClick,
+                updateFullScreen = { isFullScreen = it }
+            )
+        },
+        onSystemBackClick = {
+            handleOnBackClick(
+                isFullScreen = isFullScreen,
+                onBackClick = onBackClick,
+                updateFullScreen = { isFullScreen = it }
+            )
+        },
         showBackIcon = true,
         topAppBarContent = {
             ToolBarTitleComponent(text = stringResource(R.string.news_detail))
@@ -95,18 +76,37 @@ fun NewsDetailScreen(newsId: Int, modifier: Modifier = Modifier, onBackClick: ()
     ) {
 
         state.newsDetail?.let { detail ->
-            detail.logInline()
-            NewsDetailComponent(detail)
+            NewsDetailComponent(
+                newsDetail = detail,
+                isFullScreen = isFullScreen,
+                onImageClick = {
+                    isFullScreen = it
+                }
+            )
         }
     }
+}
 
+fun handleOnBackClick(
+    isFullScreen: Boolean,
+    onBackClick: () -> Unit,
+    updateFullScreen: (Boolean) -> Unit = {}
+) {
+    if (isFullScreen) {
+        updateFullScreen(false)
+    } else {
+        onBackClick()
+    }
 }
 
 @Composable
-private fun NewsDetailComponent(newsDetail: NewsDetailUiModel) = with(newsDetail) {
+private fun NewsDetailComponent(
+    newsDetail: NewsDetailUiModel,
+    isFullScreen: Boolean,
+    onImageClick: (Boolean) -> Unit
+) = with(newsDetail) {
 
     val scrollState = rememberScrollState()
-    var isFullScreen by remember { mutableStateOf(false) }
 
     Box {
         Column(
@@ -118,7 +118,7 @@ private fun NewsDetailComponent(newsDetail: NewsDetailUiModel) = with(newsDetail
             NewsDetailScreenHeader(title = title, sourceIconUrl = sourceUrl)
             NewsImageSection(
                 news = newsDetail,
-                onImageClick = { isFullScreen = true }
+                onImageClick = { onImageClick(true) }
             )
             NewsInfoBodyComponent(
                 newsDetail = newsDetail
@@ -135,7 +135,7 @@ private fun NewsDetailComponent(newsDetail: NewsDetailUiModel) = with(newsDetail
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.8f))
-                .clickable { isFullScreen = false },
+                .clickable { onImageClick(false) },
             contentAlignment = Alignment.Center
         ) {
             ZoomableImage(

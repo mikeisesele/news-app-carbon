@@ -83,7 +83,12 @@ internal class NewsFeedViewModel @Inject constructor(
                 )
             }
         }
-
+        updateState { state ->
+            state.copy(
+                isLoading = false,
+                errorState = MessageState.Inline(error.message.orEmpty())
+            )
+        }
         dispatchViewEvent(
             ViewEvent.Effect(
                 NewsFeedSideEffect.ShowErrorMessage(
@@ -91,13 +96,6 @@ internal class NewsFeedViewModel @Inject constructor(
                 )
             )
         )
-
-        updateState { state ->
-            state.copy(
-                isLoading = false,
-                errorState = MessageState.Inline(error.message.orEmpty())
-            )
-        }
     }
 
     private fun processNewsFeedResponse(newsFeed: List<NewsFeedDomainModel>) {

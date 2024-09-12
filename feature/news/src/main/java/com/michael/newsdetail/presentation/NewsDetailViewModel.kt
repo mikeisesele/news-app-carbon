@@ -47,7 +47,6 @@ internal class NewsDetailViewModel @Inject constructor(
         updateState { state ->
             state.copy(
                 isLoading = false,
-                errorState = null,
                 newsDetail = newsDetail.toDetailUiModel()
             )
         }
@@ -57,12 +56,17 @@ internal class NewsDetailViewModel @Inject constructor(
         updateState { state ->
             state.copy(
                 isLoading = true,
-                errorState = null
             )
         }
     }
 
     private fun onError(error: Throwable) {
+
+        updateState { state ->
+            state.copy(
+                isLoading = false,
+            )
+        }
 
         val errorMessage = error.message.ifNullSetDefault {
             error.localizedMessage.ifEmpty {
