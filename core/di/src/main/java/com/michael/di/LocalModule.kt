@@ -42,4 +42,8 @@ object LocalModule {
     ): SharedPref {
         return SharedPref(sharedPreferences)
     }
+
+    @Singleton
+    @Provides
+    fun provideNewsDao(appDatabase: AppDatabase) = appDatabase.newsDao()
 }

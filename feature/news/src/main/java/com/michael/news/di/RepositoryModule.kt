@@ -1,6 +1,7 @@
 package com.michael.news.di
 
 import com.michael.base.providers.DispatcherProvider
+import com.michael.localdata.dao.NewsDao
 import com.michael.network.service.NewsFeedApi
 import com.michael.news.data.NewsFeedRepositoryImpl
 import com.michael.news.domain.NewsFeedRepository
@@ -18,9 +19,10 @@ object RepositoryModule {
     @Singleton
     fun provideNewsFeedRepository(
         apiService: NewsFeedApi,
+        newsDao: NewsDao,
         dispatcherProvider: DispatcherProvider
     ): NewsFeedRepository {
-        return NewsFeedRepositoryImpl(apiService, dispatcherProvider)
+        return NewsFeedRepositoryImpl(apiService, newsDao, dispatcherProvider)
     }
 }
 
