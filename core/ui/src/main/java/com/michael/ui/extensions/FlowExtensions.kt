@@ -11,11 +11,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.michael.base.contract.SideEffect
 import com.michael.base.contract.ViewEvent
+import com.michael.base.providers.DispatcherProvider
+import com.michael.easylog.logInline
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -120,3 +124,104 @@ suspend inline fun <reified T : SideEffect> Flow<ViewEvent>.collectAllEffect(
         }
 }
 
+fun <T> List<T>.asFlow(): Flow<List<T>> =
+    flow { emit(this@asFlow) }
+        .distinctUntilChanged()
+
+fun <T> T.asFlow(): Flow<T> = flowOf(this)
+    .distinctUntilChanged()
+
+fun <T> T.asEmittedFlow(dispatcherProvider: DispatcherProvider): Flow<T> = flow {
+    emit(this@asEmittedFlow) // Use this@asEmittedFlow to reference the receiver (the object T)
+}.distinctUntilChanged()
+    .flowOn(dispatcherProvider.io)
+
+
+/**
+ * Safely executes an operation by wrapping it in a try-catch block. Operations to be invoked
+ * should not have a return type.
+ *
+ * @param operation The operation to be executed, taking no parameters and having no return type.
+ * @param exceptionMessage The log message associated with the exception.
+ * @param actionOnException An optional action to be executed in case of an exception.
+ *                          It takes no parameters and is typically used for cleanup or logging.
+ */
+fun safeOperation(
+    operation: () -> Unit,
+    actionOnException: ((e:Exception) -> Unit)? = null,
+    exceptionMessage: String,
+) {
+    try {
+        operation.invoke()
+    } catch (e: Exception) {
+        //print stack trace
+        e.printStackTrace()
+
+        // Log the exception and associated log message
+        exceptionMessage.logInline("safeOperation Exception: ")
+
+        // Invoke the optional actionOnException (cleanup or additional logging)
+        actionOnException?.invoke(e)
+    }
+}
+
+
+/**
+ * Safely executes a suspend operation by wrapping it in a try-catch block.
+ *
+ * @param operation The suspend operation to be executed.
+ * @param actionOnException An optional action to be executed in case of an exception.
+ *                          It takes a nullable string parameter representing the error message.
+ * @param exceptionMessage The log message associated with the exception.
+ */
+suspend fun <T> safeSuspendOperation(
+    operation: suspend () -> T,
+    actionOnException: (suspend (exception: Exception?) -> Unit)? = null,
+    exceptionMessage: String
+): T? {
+    return try {
+        operation.invoke()
+    } catch (e: Exception) {
+        //print stack trace
+        e.printStackTrace()
+
+        // Log the exception and associated log message
+        exceptionMessage.logInline("safeSuspendOperation Exception: ")
+
+        // Invoke the optional actionOnException with the error message
+        actionOnException?.invoke(e)
+        null
+    }
+}
+
+/**
+ * Safely executes an operation by wrapping it in a try-catch block. The operation to be invoked
+ * must have a nullable return type.
+ *
+ * @param operation The operation to be executed, returning a nullable result.
+ * @param exceptionMessage The log message associated with the exception.
+ * @param actionOnException An optional action to be executed in case of an exception.
+ *                          It takes a nullable string parameter representing the error message.
+ * @return The result of the operation or null in case of an exception.
+ */
+suspend fun <T> safeReturnableOperation(
+    operation: suspend () -> T?,
+    actionOnException: ((message: Exception?) -> Unit)? = null,
+    exceptionMessage: String,
+): T? {
+    return try {
+        operation.invoke()
+    } catch (e: Exception) {
+        //print stack trace
+        e.printStackTrace()
+
+        // Log the exception and associated log message
+        exceptionMessage.logInline("safeReturnableOperation Exception: ")
+
+        // Invoke the optional actionOnException with the error message
+        actionOnException?.invoke(e)
+
+        // Return null in case of an exception
+        null
+    }
+}
