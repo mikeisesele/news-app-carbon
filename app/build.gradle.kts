@@ -16,7 +16,6 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:ui"))
-    implementation(project(":feature:home"))
     implementation(project(":feature:news"))
     testImplementation(project(":core:testing"))
 
