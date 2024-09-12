@@ -36,10 +36,13 @@ fun BaseAppModuleExtension.defaultAndroidConfig() {
     defaultConfig {
         minSdk = Configuration.defaultConfig.minSdk
         targetSdk = Configuration.defaultConfig.targetSdk
+        versionCode = Configuration.defaultConfig.versionCode
+        versionName = Configuration.defaultConfig.versionName
     }
 
     buildTypes {
         debug {
+            isDebuggable = true
             isMinifyEnabled = false
         }
     }

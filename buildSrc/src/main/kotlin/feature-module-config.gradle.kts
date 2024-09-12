@@ -24,23 +24,6 @@ spotlessConfig(libs.versions.spotless.ktlint)
 android {
     defaultAndroidConfig()
     composeConfiguration(libs.versions.compose.compiler)
-
-    buildTypes {
-        getByName("debug") {
-            buildConfigField(
-                "String",
-                "APP_VERSION",
-                "\"${Configuration.defaultConfig.versionName}\""
-            )
-        }
-        getByName("release") {
-            buildConfigField(
-                "String",
-                "APP_VERSION",
-                "\"${Configuration.defaultConfig.versionName}\""
-            )
-        }
-    }
 }
 
 

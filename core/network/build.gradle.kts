@@ -15,7 +15,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
     api(libs.retrofit)
-    api(libs.retrofit.moshi)
+    api(libs.retrofit.gson)
     api(libs.logging.interceptor)
     api(libs.moshi)
 }

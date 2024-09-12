@@ -23,6 +23,7 @@ dependencies {
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(platform(libs.compose.bom))
+    implementation(libs.easylog)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

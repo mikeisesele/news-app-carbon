@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinCompose)
 }
 
+
 dependencies {
     implementation(project(":core:base"))
     implementation(project(":core:common"))
@@ -12,7 +13,7 @@ dependencies {
     implementation(project(":core:testing"))
     implementation(project(":core:localdata"))
     implementation(project(":core:ui"))
-    api(project(":core:di"))
+    implementation(project(":core:di"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

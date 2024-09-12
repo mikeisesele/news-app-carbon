@@ -23,6 +23,7 @@ dependencies {
     api(libs.kotlinxSerializationJson)
     api(libs.hilt.navigation.compose)
     api(libs.navcompose)
+    api(libs.easylog)
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
