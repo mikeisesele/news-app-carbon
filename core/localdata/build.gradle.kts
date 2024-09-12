@@ -9,9 +9,12 @@ android {
 
 dependencies {
     implementation(project(":core:base"))
+    implementation(project(":core:models"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
+    api(libs.retrofit.gson)
+
 
     annotationProcessor(libs.room.compiler)
     api(libs.room.runtime)

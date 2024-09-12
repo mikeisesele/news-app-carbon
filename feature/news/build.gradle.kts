@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":core:localdata"))
     implementation(project(":core:ui"))
     implementation(project(":core:di"))
+    implementation(project(":core:models"))
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)

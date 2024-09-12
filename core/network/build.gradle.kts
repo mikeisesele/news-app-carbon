@@ -17,5 +17,4 @@ dependencies {
     api(libs.retrofit)
     api(libs.retrofit.gson)
     api(libs.logging.interceptor)
-    api(libs.moshi)
 }

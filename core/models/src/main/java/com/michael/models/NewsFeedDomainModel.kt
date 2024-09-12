@@ -1,6 +1,12 @@
-package com.michael.news.domain.model
+package com.michael.models
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "news_feed")
 data class NewsFeedDomainModel(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0,
     val aiOrg: String? = null,
     val aiRegion: String? = null,
     val aiTag: String? = null,
@@ -25,5 +31,4 @@ data class NewsFeedDomainModel(
     val sourcePriority: Int? = null,
     val sourceUrl: String? = null,
     val title: String? = null,
-    val videoUrl: Any? = null
 )
