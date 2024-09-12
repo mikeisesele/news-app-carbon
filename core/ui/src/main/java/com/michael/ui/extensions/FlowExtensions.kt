@@ -9,9 +9,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.michael.base.contract.SideEffect
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
@@ -88,4 +90,18 @@ suspend inline fun <T : Any?> Flow<T>.singleFlow(
     } catch (e: Exception) {
         onError(e)
     }
+}
+
+
+suspend inline fun <reified T : SideEffect> (() -> Flow<SideEffect>).collectSideEffect(
+    crossinline onEffect: (T) -> Unit
+) {
+    // Invoke the function to get the Flow<SideEffect>
+    val flow = this()
+    // Collects only the effects of type T and applies the callback
+    flow
+        .filterIsInstance<T>()
+        .collect { effect ->
+            onEffect(effect)
+        }
 }

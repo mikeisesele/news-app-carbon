@@ -1,14 +1,15 @@
 package com.michael.di
 
-import com.squareup.moshi.Moshi
+import com.michael.network.service.NewsFeedApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -17,6 +18,7 @@ import javax.inject.Singleton
 object NetworkModule {
 
     @Provides
+    @Singleton
     fun provideBaseHttpClient(): OkHttpClient.Builder {
         val builder = OkHttpClient.Builder()
             .connectTimeout(NETWORK_TIMEOUT, TimeUnit.SECONDS)
@@ -27,34 +29,42 @@ object NetworkModule {
             level = HttpLoggingInterceptor.Level.BODY
         }
         builder.addNetworkInterceptor(loggingInterceptor)
+        builder.addInterceptor { chain ->
+            val originalRequest: Request = chain.request()
+            val requestWithApiKey: Request = originalRequest.newBuilder()
+                .addHeader("X-ACCESS-KEY", APIKEY)
+                .build()
+            chain.proceed(requestWithApiKey)
+        }
         return builder
     }
 
-    @Singleton
     @Provides
+    @Singleton
     fun providesRetrofit(
         okHttpClient: OkHttpClient.Builder,
-        moshiConverterFactory: MoshiConverterFactory,
+        converterFactory: GsonConverterFactory,
     ): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl(BASEURL)
             .client(okHttpClient.build())
-            .addConverterFactory(moshiConverterFactory)
+            .addConverterFactory(converterFactory)
             .build()
     }
 
-    @Singleton
-    @Provides
-    fun provideMoshi(): Moshi {
-        return Moshi.Builder()
-            .build()
-    }
 
-    @Singleton
     @Provides
-    fun provideMoshiConverterFactory(moshi: Moshi): MoshiConverterFactory {
-        return MoshiConverterFactory.create(moshi)
+    @Singleton
+    fun provideGsonConverterFactory(): GsonConverterFactory {
+        return GsonConverterFactory.create()
+    }
+    @Provides
+    @Singleton
+    fun provideApiService(retrofit: Retrofit): NewsFeedApi {
+        return retrofit.create(NewsFeedApi::class.java)
     }
 }
 
 private const val NETWORK_TIMEOUT = 30L
+private const val BASEURL = "https://newsdata.io/api/1/"
+private const val APIKEY = "pub_5324732474707aa61624d6f83145cf364f772"
