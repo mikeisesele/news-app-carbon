@@ -5,7 +5,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
-import com.michael.common.ImmutableList
 import com.michael.news.presentation.NewsFeedScreen
 import com.michael.news.presentation.NewsFeedScreenDestination
 import com.michael.newsdetail.presentation.NewsDetailScreen
@@ -18,11 +17,10 @@ fun Navigator(
 ) {
     NavHost(navController = navController, startDestination = NewsFeedScreenDestination) {
         composable<NewsFeedScreenDestination> {
-            NewsFeedScreen(onBackClick = navController::navigateUp, onNewsCardClick = {
+            NewsFeedScreen(onNewsCardClick = {
                 navController.navigate(NewsDetailScreenDestination(it))
             })
         }
-
 
         composable<NewsDetailScreenDestination> {
             val args = it.toRoute<NewsDetailScreenDestination>()

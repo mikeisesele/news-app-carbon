@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import com.michael.base.contract.BaseState
+import com.michael.base.model.MessageState
 import com.michael.ui.extensions.clickable
 
 
@@ -78,11 +80,14 @@ fun BaseScreen(
             CenteredColumn {
                 LoadingAnimation()
             }
-        }  else if (state.errorState != null) {
-            CenteredColumn {
+        }
+//        else if (state.errorState != null && state.errorState is MessageState.Inline) {
+//            CenteredColumn {
+//                Text(text = (state.errorState as MessageState.Inline).message)
+//            }
+//        }
+    else {
 
-            }
-        } else {
             // Pass the paddingValues to your content
             Box(
                 modifier = Modifier

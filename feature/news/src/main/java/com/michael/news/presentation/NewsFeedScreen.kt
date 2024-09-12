@@ -1,20 +1,17 @@
 package com.michael.news.presentation
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -25,24 +22,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.michael.base.contract.ViewEvent
 import com.michael.base.model.MessageState
 import com.michael.common.Ignored
 import com.michael.common.displayToast
-import com.michael.easylog.logInline
 import com.michael.feature.news.R
 import com.michael.news.domain.contract.NewsFeedSideEffect
 import com.michael.news.domain.contract.NewsFeedViewAction
 import com.michael.news.presentation.component.AnimatedSearchBarComponent
 import com.michael.news.presentation.component.NewsItem
 import com.michael.news.presentation.component.ToolBarActionComponents
-import com.michael.ui.components.ToolBarTitleComponent
+import com.michael.newsdetail.presentation.components.CenteredText
 import com.michael.ui.components.BaseScreen
-import com.michael.ui.components.CenteredColumn
-import com.michael.ui.extensions.clickable
+import com.michael.ui.components.InfiniteListHandler
+import com.michael.ui.components.ToolBarTitleComponent
 import com.michael.ui.extensions.collectAllEffect
 import com.michael.ui.extensions.rememberStateWithLifecycle
 import kotlinx.coroutines.flow.Flow
@@ -52,19 +47,21 @@ import kotlinx.serialization.Serializable
 object NewsFeedScreenDestination
 
 @Composable
-fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, onNewsCardClick: (Int) -> Unit ) {
+fun NewsFeedScreen(modifier: Modifier = Modifier, onNewsCardClick: (Int) -> Unit) {
 
     val viewModel: NewsFeedViewModel = hiltViewModel()
     val state by rememberStateWithLifecycle(viewModel.state)
     var searchBarComponentVisible by remember { mutableStateOf(false) }
-    val newsItems = state.searchQueryResponse.ifEmpty { state.newsFeedList }
     val listState = rememberLazyListState()
     val context = LocalContext.current
     val isFirstItemVisible by remember { derivedStateOf { listState.firstVisibleItemIndex == 0 } }
+    val errorMessage = state.errorState as? MessageState.Inline
+
+
+    val activity = context as? Activity
 
     SubscribeToSideEffects(
-        events = viewModel.events,
-        context = context
+        events = viewModel.events, context = context
     )
 
     LaunchedEffect(Unit) {
@@ -84,9 +81,14 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, onNew
                 icon = Icons.Default.Search
             )
         },
-        onSystemBackClick = onBackClick,
+        onSystemBackClick = {
+            if (searchBarComponentVisible) {
+                searchBarComponentVisible = false
+            } else {
+                activity?.finishAffinity()
+            }
+        },
     ) {
-
 
         InfiniteListHandler(listState = listState, loadMore = {
             viewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
@@ -94,8 +96,7 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, onNew
 
         Column {
 
-            AnimatedSearchBarComponent(
-                searchQuery = state.searchQuery,
+            AnimatedSearchBarComponent(searchQuery = state.searchQuery,
                 searchBarComponentVisible = searchBarComponentVisible,
                 onCloseSearchClick = {
                     searchBarComponentVisible = false
@@ -104,33 +105,34 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, onNew
                     viewModel.onViewAction(NewsFeedViewAction.UpdateSearchQuery(it))
                 },
                 onSearch = {
+                    searchBarComponentVisible = false
                     viewModel.onViewAction(NewsFeedViewAction.SearchNewsFeed)
-                }
-            )
+                })
 
             // Handle empty state or errors
-            if (newsItems.isEmpty() && !state.isLoading ) {
-                CenteredColumn {
-                    Text(
-                        text = stringResource(R.string.no_articles_found),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                            .clickable {
-                                viewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
-                            },
-                        textAlign = TextAlign.Center
-                    )
-                }
+            if (state.newsFeedList.isEmpty() && !state.isLoading) {
+                CenteredText(text = errorMessage?.message.orEmpty(),)
+            } else if (
+                state.searchQueryResponse.isEmpty() &&
+                !state.isLoading &&
+                state.searchQuery.isNotEmpty()
+            ) {
+                CenteredText(
+                    text = "No Result Matches your search query: ${state.searchQuery}",
+                    onCenteredTextAction = {
+                        viewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
+                    })
             } else {
                 val topPadding = if (isFirstItemVisible) 0.dp else 8.dp
                 LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(start = 16.dp, end = 16.dp, bottom = 8.dp, top = topPadding)
+                    modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(
+                        start = 16.dp, end = 16.dp, bottom = 8.dp, top = topPadding
+                    )
                 ) {
-
-                    items(newsItems) { article ->
-                        NewsItem(article = article, onNewsCardClick = onNewsCardClick) // Custom composable for each news item
+                    items(state.newsFeedList) { article ->
+                        NewsItem(
+                            article = article, onNewsCardClick = onNewsCardClick
+                        ) // Custom composable for each news item
                     }
                 }
             }
@@ -138,48 +140,21 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onBackClick: () -> Unit, onNew
     }
 }
 
-@Composable
-private fun InfiniteListHandler(
-    listState: LazyListState,
-    loadMore: () -> Unit
-) {
-    // Check if the user is near the bottom of the list to trigger loading more
-    val shouldLoadMore = remember {
-        derivedStateOf {
-            val visibleItemsInfo = listState.layoutInfo.visibleItemsInfo
-            if (visibleItemsInfo.isNotEmpty()) {
-                val lastVisibleItemIndex = visibleItemsInfo.last().index
-                val totalItemCount = listState.layoutInfo.totalItemsCount
-                lastVisibleItemIndex >= totalItemCount - 5 // Trigger loading when 5 items remain
-            } else {
-                false
-            }
-        }
-    }
-
-    LaunchedEffect(shouldLoadMore.value) {
-        if (shouldLoadMore.value) {
-            loadMore()
-        }
-    }
-}
-
 
 @Composable
 private fun SubscribeToSideEffects(
-    events: Flow<ViewEvent>,
-    context: Context
+    events: Flow<ViewEvent>, context: Context
 ) {
-
     LaunchedEffect(events) {
-        events.collectAllEffect <NewsFeedSideEffect> { effect ->
-            when(effect) {
+        events.collectAllEffect<NewsFeedSideEffect> { effect ->
+            when (effect) {
                 is NewsFeedSideEffect.ShowErrorMessage -> {
                     when (effect.errorMessageState) {
-                      is  MessageState.Toast -> {
-                          displayToast(context, effect.errorMessageState.message)
-                      }
-                      else -> Ignored
+                        is MessageState.Toast -> {
+                            displayToast(context, effect.errorMessageState.message)
+                        }
+
+                        else -> Ignored
                     }
                 }
             }

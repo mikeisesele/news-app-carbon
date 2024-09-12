@@ -7,6 +7,8 @@ import com.michael.base.providers.DispatcherProvider
 import com.michael.base.providers.StringProvider
 import com.michael.common.toImmutableList
 import com.michael.easylog.ifNullSetDefault
+import com.michael.easylog.logInline
+import com.michael.easylog.logInlineNullable
 import com.michael.feature.news.R
 import com.michael.models.NewsFeedDomainModel
 import com.michael.news.domain.NewsFeedRepository
@@ -69,7 +71,7 @@ internal class NewsFeedViewModel @Inject constructor(
         updateState { state ->
             state.copy(
                 isLoading = true,
-                errorState = null
+                errorState = null,
             )
         }
     }
@@ -86,7 +88,7 @@ internal class NewsFeedViewModel @Inject constructor(
         updateState { state ->
             state.copy(
                 isLoading = false,
-                errorState = MessageState.Inline(error.message.orEmpty())
+                errorState = MessageState.Inline(errorMessage)
             )
         }
         dispatchViewEvent(
