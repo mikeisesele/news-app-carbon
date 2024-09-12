@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-class NewsFeedRepositoryImpl @Inject constructor(
+internal class NewsFeedRepositoryImpl @Inject constructor(
     private val apiService: NewsFeedApi,
     private val newsFeedDao: NewsDao,
     private val dispatcherProvider: DispatcherProvider,

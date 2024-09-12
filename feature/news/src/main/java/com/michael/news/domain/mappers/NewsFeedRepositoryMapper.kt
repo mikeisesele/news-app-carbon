@@ -4,12 +4,12 @@ import com.michael.network.model.NewsFeedApiResult
 import com.michael.network.model.NewsFeedResponse
 import com.michael.models.NewsFeedDomainModel
 
-fun NewsFeedResponse.toEntity(): List<NewsFeedDomainModel> {
+internal fun NewsFeedResponse.toEntity(): List<NewsFeedDomainModel> {
     return results.map { it.toEntity() }
 }
 
 
-fun NewsFeedApiResult.toEntity(): NewsFeedDomainModel {
+internal fun NewsFeedApiResult.toEntity(): NewsFeedDomainModel {
     return with(this) {
         NewsFeedDomainModel(
             aiOrg = ai_org,

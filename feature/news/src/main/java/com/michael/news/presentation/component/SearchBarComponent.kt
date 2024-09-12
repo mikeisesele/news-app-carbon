@@ -38,7 +38,7 @@ import com.michael.ui.utils.mediumTexStyle
 private const val UNFOCUSED_ALPHA = 0.4f
 
 @Composable
-fun SearchBarComponent(
+internal fun SearchBarComponent(
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
     onSearch: () -> Unit,

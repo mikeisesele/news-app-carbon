@@ -29,7 +29,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class NewsFeedViewModel @Inject constructor(
+internal class NewsFeedViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val newsFeedRepository: NewsFeedRepositoryImpl
 ) : BaseViewModel<NewsFeedState, NewsFeedViewAction>(

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import com.michael.ui.extensions.clickable
 
 @Composable
-fun ToolBarActionComponents(modifier: Modifier = Modifier, name: String, onClick: () -> Unit, icon: ImageVector) {
+internal fun ToolBarActionComponents(modifier: Modifier = Modifier, name: String, onClick: () -> Unit, icon: ImageVector) {
     Column (
         modifier = modifier
             .wrapContentWidth()

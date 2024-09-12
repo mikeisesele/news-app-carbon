@@ -6,7 +6,7 @@ import com.michael.common.ImmutableList
 import com.michael.common.emptyImmutableList
 import com.michael.news.domain.model.NewsFeedUiModel
 
-data class NewsFeedState(
+internal data class NewsFeedState(
     override val isLoading: Boolean,
     override val errorState: MessageState?,
     val searchQuery: String,

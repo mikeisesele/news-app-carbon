@@ -6,11 +6,11 @@ import com.michael.models.NewsFeedDomainModel
 import com.michael.news.domain.model.NewsFeedUiModel
 
 
-fun List<NewsFeedDomainModel>.toUiModel(): ImmutableList<NewsFeedUiModel> =
+internal fun List<NewsFeedDomainModel>.toUiModel(): ImmutableList<NewsFeedUiModel> =
     map { it.toUiModel() }.toImmutableList()
 
 
-fun NewsFeedDomainModel.toUiModel(): NewsFeedUiModel {
+internal fun NewsFeedDomainModel.toUiModel(): NewsFeedUiModel {
     return with(this) {
         NewsFeedUiModel(
             id = id,

@@ -1,4 +1,4 @@
-package com.michael.news.presentation.component
+package com.michael.ui.components
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme

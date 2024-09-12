@@ -1,6 +1,6 @@
 package com.michael.news.domain.model
 
-data class NewsFeedUiModel(
+internal data class NewsFeedUiModel(
     val id: Int,
     val articleId: String,
     val category: List<String>,
