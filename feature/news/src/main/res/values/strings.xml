@@ -9,4 +9,12 @@
     <string name="news_image">News Image</string>
     <string name="zoomable_image">Zoomable Image</string>
     <string name="news_source">News Source</string>
+    <string name="retry">Retry</string>
+    <string name="keywords">Keywords</string>
+    <string name="creators">Creators</string>
+    <string name="categories">Categories</string>
+    <string name="published_by">Published by</string>
+    <string name="published_on">Published on</string>
+    <string name="description">Description</string>
+    <string name="no_result_matches_your_search_query">No Result Matches your search query: %1$s</string>
 </resources>

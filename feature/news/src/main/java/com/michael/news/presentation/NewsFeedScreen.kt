@@ -118,7 +118,10 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onNewsCardClick: (Int) -> Unit
                 state.searchQuery.isNotEmpty()
             ) {
                 CenteredText(
-                    text = "No Result Matches your search query: ${state.searchQuery}",
+                    text = stringResource(
+                        R.string.no_result_matches_your_search_query,
+                        state.searchQuery
+                    ),
                     onCenteredTextAction = {
                         viewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
                     })

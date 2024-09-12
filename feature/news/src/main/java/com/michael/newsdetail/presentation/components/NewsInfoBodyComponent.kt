@@ -13,10 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.michael.common.toReadableDate
+import com.michael.feature.news.R
 import com.michael.newsdetail.presentation.model.NewsDetailUiModel
 import com.michael.ui.utils.boldTexStyle
 import com.michael.ui.utils.mediumTexStyle
@@ -29,12 +31,16 @@ internal fun NewsInfoBodyComponent(modifier: Modifier = Modifier, newsDetail: Ne
             .fillMaxWidth()
             .padding(vertical = 16.dp), // Adding padding
     ) {
-        NewsInfoRowComponent(title = "Keywords", values = newsDetail.keywords)
-        NewsInfoRowComponent(title = "Creators", values = newsDetail.creator)
-        NewsInfoRowComponent(title = "Categories", values = newsDetail.category)
-        NewsInfoRowComponent(title = "Published by", values = newsDetail.creator)
-        NewsInfoRowComponent(title = "Published on", value = newsDetail.pubDate.toReadableDate())
-        Text(text = "Description", style = boldTexStyle(16),  modifier = Modifier.padding(top = 16.dp),)
+        NewsInfoRowComponent(title = stringResource(R.string.keywords), values = newsDetail.keywords)
+        NewsInfoRowComponent(title = stringResource(R.string.creators), values = newsDetail.creator)
+        NewsInfoRowComponent(title = stringResource(R.string.categories), values = newsDetail.category)
+        NewsInfoRowComponent(title = stringResource(R.string.published_by), values = newsDetail.creator)
+        NewsInfoRowComponent(title = stringResource(R.string.published_on), value = newsDetail.pubDate.toReadableDate())
+        Text(
+            text = stringResource(R.string.description),
+            style = boldTexStyle(16),
+            modifier = Modifier.padding(top = 16.dp)
+        )
         Text(
             text = newsDetail.description,
             style = mediumTexStyle(size = 14),
