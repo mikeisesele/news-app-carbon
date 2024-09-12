@@ -1,10 +1,7 @@
 package com.michael.newsdetail.domain.mapper
 
-import com.michael.news.domain.mappers.toUiModel
-import com.michael.news.presentation.model.NewsFeedUiModel
 import com.michael.newsdetail.presentation.model.NewsDetailUiModel
 import com.michael.testfakedatafactory.TestFakeDataFactory
-import com.michael.testfakedatafactory.TestFakeDataFactory.fakeNewsDomainModelList
 import io.kotest.matchers.shouldBe
 import io.kotest.matchers.types.shouldBeInstanceOf
 import org.junit.Test

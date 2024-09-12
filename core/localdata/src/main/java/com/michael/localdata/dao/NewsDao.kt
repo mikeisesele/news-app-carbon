@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import com.michael.models.NewsFeedDomainModel
 
-
 @Dao
 interface NewsDao {
 

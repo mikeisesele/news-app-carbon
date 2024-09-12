@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 /**
  * This is the common part of all ViewModels, dealing with ViewState and SideEffect propagation.
  */
-abstract class BaseViewModel<ViewState : BaseState, Action: BaseViewAction>(
+abstract class BaseViewModel<ViewState : BaseState, Action : BaseViewAction>(
     initialState: ViewState,
     protected val dispatcherProvider: DispatcherProvider,
 ) : ViewModel() {

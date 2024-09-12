@@ -1,7 +1,6 @@
 package com.michael.common
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -10,7 +9,6 @@ import java.util.Locale
 fun displayToast(context: Context, message: String) {
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
-
 
 // Extension function to convert date string to readable format
 fun String.toReadableDate(): String {

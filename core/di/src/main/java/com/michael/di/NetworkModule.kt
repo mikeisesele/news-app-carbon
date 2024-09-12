@@ -56,7 +56,6 @@ object NetworkModule {
             .build()
     }
 
-
     @Provides
     @Singleton
     fun provideGsonConverterFactory(): GsonConverterFactory {
