@@ -2,7 +2,7 @@ package com.michael.news.domain.mappers
 
 import com.michael.common.ImmutableList
 import com.michael.common.toImmutableList
-import com.michael.news.domain.model.NewsFeedDomainModel
+import com.michael.models.NewsFeedDomainModel
 import com.michael.news.domain.model.NewsFeedUiModel
 
 
@@ -13,6 +13,7 @@ fun List<NewsFeedDomainModel>.toUiModel(): ImmutableList<NewsFeedUiModel> =
 fun NewsFeedDomainModel.toUiModel(): NewsFeedUiModel {
     return with(this) {
         NewsFeedUiModel(
+            id = id,
             articleId = articleId.orEmpty(),
             category = category.orEmpty(),
             country = country.orEmpty(),

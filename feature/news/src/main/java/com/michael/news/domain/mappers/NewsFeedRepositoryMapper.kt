@@ -2,7 +2,7 @@ package com.michael.news.domain.mappers
 
 import com.michael.network.model.NewsFeedApiResult
 import com.michael.network.model.NewsFeedResponse
-import com.michael.news.domain.model.NewsFeedDomainModel
+import com.michael.models.NewsFeedDomainModel
 
 fun NewsFeedResponse.toEntity(): List<NewsFeedDomainModel> {
     return results.map { it.toEntity() }
@@ -36,7 +36,6 @@ fun NewsFeedApiResult.toEntity(): NewsFeedDomainModel {
             sourcePriority = source_priority,
             sourceUrl = source_url,
             title = title,
-            videoUrl = video_url
         )
     }
 }

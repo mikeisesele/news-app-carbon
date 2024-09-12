@@ -1,6 +1,7 @@
 package com.michael.news.domain.model
 
 data class NewsFeedUiModel(
+    val id: Int,
     val articleId: String,
     val category: List<String>,
     val country: List<String>,
