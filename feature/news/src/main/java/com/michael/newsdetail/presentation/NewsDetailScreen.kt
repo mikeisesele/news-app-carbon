@@ -115,9 +115,9 @@ private fun NewsDetailComponent(
                 .fillMaxSize()
                 .padding(16.dp),
         ) {
-            NewsDetailScreenHeader(title = title, sourceIconUrl = sourceUrl)
+            NewsDetailScreenHeader(title = title, sourceIconUrl = sourceIcon)
             NewsImageSection(
-                news = newsDetail,
+                imageUrl = imageUrl,
                 onImageClick = { onImageClick(true) }
             )
             NewsInfoBodyComponent(

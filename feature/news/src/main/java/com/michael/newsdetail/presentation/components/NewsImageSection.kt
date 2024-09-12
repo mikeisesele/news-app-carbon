@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.michael.easylog.logInlineNullable
 import com.michael.feature.news.R
 import com.michael.newsdetail.presentation.model.NewsDetailUiModel
 import com.michael.ui.extensions.clickable
@@ -22,7 +23,7 @@ import com.michael.ui.extensions.clickable
 
 @Composable
 internal fun NewsImageSection(
-    news: NewsDetailUiModel,
+    imageUrl: String,
     onImageClick: () -> Unit
 ) {
     Box(
@@ -33,7 +34,7 @@ internal fun NewsImageSection(
         AsyncImage(
             model = ImageRequest
                 .Builder(LocalContext.current)
-                .data(news.imageUrl)
+                .data(imageUrl)
                 .build(),
             contentScale = ContentScale.Inside,
             contentDescription = stringResource(R.string.news_image),
