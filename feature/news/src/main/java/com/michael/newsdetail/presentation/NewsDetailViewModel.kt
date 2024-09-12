@@ -2,11 +2,15 @@ package com.michael.newsdetail.presentation
 
 import com.michael.base.contract.BaseViewModel
 import com.michael.base.contract.ViewEvent
+import com.michael.base.model.MessageState
 import com.michael.base.providers.DispatcherProvider
+import com.michael.base.providers.StringProvider
 import com.michael.easylog.ifNullSetDefault
+import com.michael.feature.news.R
 import com.michael.models.NewsFeedDomainModel
 import com.michael.news.domain.NewsFeedRepository
 import com.michael.news.domain.contract.NewsFeedSideEffect
+import com.michael.newsdetail.domain.contract.NewsDetailSideEffect
 import com.michael.newsdetail.domain.contract.NewsDetailState
 import com.michael.newsdetail.domain.contract.NewsDetailViewAction
 import com.michael.newsdetail.domain.mapper.toDetailUiModel
@@ -18,13 +22,14 @@ import javax.inject.Inject
 @HiltViewModel
 internal class NewsDetailViewModel @Inject constructor(
     private val newsRepository: NewsFeedRepository,
-    dispatcherProvider: DispatcherProvider
-)  : BaseViewModel<NewsDetailState, NewsDetailViewAction>(
+    dispatcherProvider: DispatcherProvider,
+    private val stringProvider: StringProvider
+) : BaseViewModel<NewsDetailState, NewsDetailViewAction>(
     NewsDetailState.initialState, dispatcherProvider
 ) {
     override fun onViewAction(viewAction: NewsDetailViewAction) {
         when (viewAction) {
-             is NewsDetailViewAction.GetNewsDetail -> getNewsDetail(viewAction.id)
+            is NewsDetailViewAction.GetNewsDetail -> getNewsDetail(viewAction.id)
         }
     }
 
@@ -59,9 +64,21 @@ internal class NewsDetailViewModel @Inject constructor(
 
     private fun onError(error: Throwable) {
 
-        val errorMessage = error.message.ifNullSetDefault { error.localizedMessage }
+        val errorMessage = error.message.ifNullSetDefault {
+            error.localizedMessage.ifEmpty {
+                stringProvider.getString(
+                    R.string.something_went_wrong
+                )
+            }
+        }
 
-        dispatchViewEvent(ViewEvent.Effect(NewsFeedSideEffect.ShowToast(errorMessage)))
+        dispatchViewEvent(
+            ViewEvent.Effect(
+                NewsDetailSideEffect.ShowErrorMessage(
+                    errorMessageState = MessageState.Inline(errorMessage)
+                )
+            )
+        )
 
     }
 }

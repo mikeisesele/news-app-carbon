@@ -2,6 +2,7 @@
     <string name="app_name">News</string>
     <string name="search_news">Search News</string>
     <string name="news_feed">News Feed</string>
+    <string name="something_went_wrong">Something went wrong</string>
     <string name="search">Search</string>
     <string name="no_articles_found">No articles found</string>
     <string name="news_detail">News Detail</string>

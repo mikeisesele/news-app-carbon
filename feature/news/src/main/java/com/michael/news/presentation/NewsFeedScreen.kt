@@ -29,6 +29,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.michael.base.contract.ViewEvent
+import com.michael.base.model.MessageState
+import com.michael.common.Ignored
 import com.michael.common.displayToast
 import com.michael.easylog.logInline
 import com.michael.feature.news.R
@@ -171,12 +173,14 @@ private fun SubscribeToSideEffects(
 
     LaunchedEffect(events) {
         events.collectAllEffect <NewsFeedSideEffect> { effect ->
-
-            logInline("Effect: $effect")
-
             when(effect) {
-                is NewsFeedSideEffect.ShowToast -> {
-                    displayToast(context, effect.message)
+                is NewsFeedSideEffect.ShowErrorMessage -> {
+                    when (effect.errorMessageState) {
+                      is  MessageState.Toast -> {
+                          displayToast(context, effect.errorMessageState.message)
+                      }
+                      else -> Ignored
+                    }
                 }
             }
         }

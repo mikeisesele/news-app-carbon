@@ -4,8 +4,10 @@ import com.michael.base.contract.BaseViewModel
 import com.michael.base.contract.ViewEvent
 import com.michael.base.model.MessageState
 import com.michael.base.providers.DispatcherProvider
+import com.michael.base.providers.StringProvider
 import com.michael.common.toImmutableList
 import com.michael.easylog.ifNullSetDefault
+import com.michael.feature.news.R
 import com.michael.models.NewsFeedDomainModel
 import com.michael.news.domain.NewsFeedRepository
 import com.michael.news.domain.contract.NewsFeedSideEffect
@@ -21,6 +23,7 @@ import javax.inject.Inject
 internal class NewsFeedViewModel @Inject constructor(
     dispatcherProvider: DispatcherProvider,
     private val newsFeedRepository: NewsFeedRepository,
+    private val stringProvider: StringProvider
 ) : BaseViewModel<NewsFeedState, NewsFeedViewAction>(
     NewsFeedState.initialState,
     dispatcherProvider
@@ -54,13 +57,12 @@ internal class NewsFeedViewModel @Inject constructor(
     private fun searchNewsFeed() {
         launch {
             newsFeedRepository.searchNewsFeed(currentState.searchQuery).collectBy(
-                    onStart = ::onLoading,
-                    onEach = ::processSearchQueryResponse,
-                    onError = ::onError
-                )
+                onStart = ::onLoading,
+                onEach = ::processSearchQueryResponse,
+                onError = ::onError
+            )
         }
     }
-
 
 
     private fun onLoading() {
@@ -74,9 +76,21 @@ internal class NewsFeedViewModel @Inject constructor(
 
     private fun onError(error: Throwable) {
 
-        val errorMessage = error.message.ifNullSetDefault { error.localizedMessage }
+        val errorMessage = error.message.ifNullSetDefault {
+            error.localizedMessage.ifEmpty {
+                stringProvider.getString(
+                    R.string.something_went_wrong
+                )
+            }
+        }
 
-        dispatchViewEvent(ViewEvent.Effect(NewsFeedSideEffect.ShowToast(errorMessage)))
+        dispatchViewEvent(
+            ViewEvent.Effect(
+                NewsFeedSideEffect.ShowErrorMessage(
+                    errorMessageState = MessageState.Inline(errorMessage)
+                )
+            )
+        )
 
         updateState { state ->
             state.copy(
