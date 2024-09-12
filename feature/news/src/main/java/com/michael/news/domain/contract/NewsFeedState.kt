@@ -11,12 +11,14 @@ data class NewsFeedState(
     override val errorState: MessageState?,
     val searchQuery: String,
     val newsFeedList: ImmutableList<NewsFeedUiModel>,
+    val searchQueryResponse: ImmutableList<NewsFeedUiModel>,
 ) : BaseState {
     companion object {
         val initialState = NewsFeedState(
             isLoading = false,
             errorState = null,
             newsFeedList = emptyImmutableList(),
+            searchQueryResponse = emptyImmutableList(),
             searchQuery = ""
         )
     }

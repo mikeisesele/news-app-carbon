@@ -10,6 +10,7 @@ interface NewsFeedApi {
     @GET("latest")
     suspend fun getNewsFeed(
         @Query("language") language: String = "en",
+        @Query("q") searchParam: String = "",
     ): NewsFeedResponse
 
 }

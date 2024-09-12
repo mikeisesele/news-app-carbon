@@ -16,4 +16,6 @@ interface NewsDao {
     @Query("SELECT * FROM news_feed")
     suspend fun getNews(): List<NewsFeedDomainModel>
 
+    @Query("SELECT * FROM news_feed WHERE title LIKE :query OR description LIKE :query OR content LIKE :query OR category LIKE :query OR keywords LIKE :query  ORDER BY pubDate DESC")
+    suspend fun searchNews(query: String): List<NewsFeedDomainModel>
 }

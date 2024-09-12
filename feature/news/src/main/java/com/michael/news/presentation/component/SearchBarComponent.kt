@@ -41,6 +41,7 @@ private const val UNFOCUSED_ALPHA = 0.4f
 fun SearchBarComponent(
     modifier: Modifier = Modifier,
     onValueChange: (String) -> Unit,
+    onSearch: () -> Unit,
     searchQuery: String,
     color: Color = MaterialTheme.colorScheme.onPrimary
 ) {
@@ -111,6 +112,10 @@ fun SearchBarComponent(
             onValueChange(it.text)
         },
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-        keyboardActions = KeyboardActions()
+        keyboardActions = KeyboardActions(
+            onSearch = {
+                onSearch()
+            }
+        )
     )
 }

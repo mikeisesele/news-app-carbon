@@ -4,4 +4,6 @@ import com.michael.base.contract.BaseViewAction
 
 interface NewsFeedViewAction : BaseViewAction {
     data object GetNewsFeed: NewsFeedViewAction
+    data class UpdateSearchQuery(val query: String): NewsFeedViewAction
+    data object SearchNewsFeed: NewsFeedViewAction
 }

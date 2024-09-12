@@ -10,6 +10,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.michael.base.contract.SideEffect
+import com.michael.base.contract.ViewEvent
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -18,6 +19,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -105,3 +107,16 @@ suspend inline fun <reified T : SideEffect> (() -> Flow<SideEffect>).collectSide
             onEffect(effect)
         }
 }
+
+suspend inline fun <reified T : SideEffect> Flow<ViewEvent>.collectAllEffect(
+    crossinline onEffect: (T) -> Unit
+) {
+    this
+        .filterIsInstance<ViewEvent.Effect>()
+        .map { it.effect }
+        .filterIsInstance<T>()
+        .collect { effect ->
+            onEffect(effect)
+        }
+}
+
