@@ -29,6 +29,5 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
 
-    detektPlugins(libs.detekt.formatter)
     providetestDependencies(libs)
 }

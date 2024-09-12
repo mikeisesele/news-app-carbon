@@ -1,4 +1,3 @@
-import utils.spotlessConfig
 import java.util.Properties
 
 plugins {
@@ -6,8 +5,6 @@ plugins {
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kotlinSerialization)
 }
-
-spotlessConfig(libs.versions.spotless.ktlint)
 
 val keystoreFile: File = project.rootProject.file("gradle.properties")
 val properties = Properties()

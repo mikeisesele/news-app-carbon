@@ -33,5 +33,4 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
 
     providetestDependencies(libs)
-    detektPlugins(libs.detekt.formatter)
 }

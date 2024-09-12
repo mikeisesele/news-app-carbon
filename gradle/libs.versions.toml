@@ -8,12 +8,8 @@ kotlinSerializationPlugin = "1.8.10"
 
 coil = "2.6.0"
 desugar = "1.2.3"
-plugin-spotless = "6.9.1"
-plugin-detekt = "1.23.3"
-spotless-ktlint = "0.46.1"
-jacoco = "0.8.10"
 
-junit = "4.13.2"
+junit = "5.10.0"
 androidx-test-ext-junit = "1.1.5"
 espresso-core = "3.6.1"
 core-testing = "2.2.0"
@@ -39,7 +35,6 @@ hilt-navigation-compose = "1.2.0"
 navigationCompose = "2.8.0-rc01"
 
 core-splashscreen = "1.0.1"
-androidx-interpolator = "1.0.0"
 
 retrofit = "2.11.0"
 okhttp = "4.12.0"
@@ -59,7 +54,6 @@ easylog = "3.0.2"
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 
 # Test
-junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
@@ -71,6 +65,7 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 desugar = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar" }
 androidx-core-testing = { module = "androidx.arch.core:core-testing", version.ref = "core-testing" }
+junit = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
 junit-engine = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit" }
 
 # Lifecycle
@@ -84,7 +79,6 @@ compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
-material3 = { group = "androidx.compose.material3", name = "material3" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 navcompose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 compose-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "compose-version" }
@@ -92,7 +86,6 @@ compose-foundation = { module = "androidx.compose.foundation:foundation", versio
 compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "compose-version" }
 compose-material = { module = "androidx.compose.material:material", version.ref = "compose-version" }
 compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
-compose-materialiconsextended = { module = "androidx.compose.material:material-icons-extended", version.ref = "compose-version" }
 
 #coroutine
 coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
@@ -105,14 +98,6 @@ google-material = { module = "com.google.android.material:material", version.ref
 android-gradle = { module = "com.android.tools.build:gradle", version.ref = "android-gradle" }
 kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
-
-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "kotlin" }
-moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
-moshi-kotlin-codegen = { module = "com.squareup.moshi:moshi-kotlin-codegen", version.ref = "moshi" }
-
-detekt-plugin = { module = "io.gitlab.arturbosch.detekt:detekt-gradle-plugin", version.ref = "plugin-detekt" }
-detekt-formatter = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", version.ref = "plugin-detekt" }
-
 #hilt
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
@@ -122,7 +107,6 @@ core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = 
 
 # retrofit
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-retrofit-moshi = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "retrofit" }
 retrofit-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 
@@ -135,8 +119,6 @@ room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 coil = { module = "io.coil-kt:coil", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-androidx-junit-ktx = { group = "androidx.test.ext", name = "junit-ktx", version = "1.1.5" }
-androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version = "1.5.4" }
 
 kotlinxSerializationJson = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }

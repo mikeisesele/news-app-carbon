@@ -5,7 +5,6 @@ plugins {
 dependencies {
     implementation(project(":core:base"))
     implementation(libs.coroutines.test)
-    detektPlugins(libs.detekt.formatter)
 }
 
 android {

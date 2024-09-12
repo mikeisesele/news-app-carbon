@@ -9,7 +9,6 @@ plugins {
     `kotlin-dsl`
     `kotlin-dsl-precompiled-script-plugins`
     id("org.jetbrains.kotlin.android") version libs.versions.org.jetbrains.kotlin.android190.get() apply false
-    id("com.diffplug.spotless") version libs.versions.plugin.spotless.get() apply false
     id("org.jetbrains.kotlin.plugin.compose") version libs.versions.kotlinComposePlugin.get() apply false
     id("org.jetbrains.kotlin.plugin.serialization") version libs.versions.kotlinSerializationPlugin.get() apply false
 }
@@ -43,8 +42,6 @@ dependencies {
 
     implementation(libs.android.gradle)
     implementation(libs.kotlin.gradle)
-    implementation(libs.detekt.plugin)
-    implementation(plugin(id = "com.diffplug.spotless", version = libs.versions.plugin.spotless.get()))
 }
 
 // https://docs.gradle.org/current/userguide/plugins.html?_ga=2.189164651.1386885244.1660553312-166908490.1647955116#sec:plugin_markers
