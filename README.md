@@ -1,4 +1,4 @@
-<img src="images/news_app.svg" height="70"><br/>
+<img src="docs/images/news_app.svg" height="70"><br/>
 
 # NewsApp Android Application
 
