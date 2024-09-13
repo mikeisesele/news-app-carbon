@@ -1,14 +1,10 @@
 package com.michael.common.data
 
 import com.michael.base.providers.DispatcherProvider
-import com.michael.common.Constants.DB_ALREADY_CLEARED
-import com.michael.common.Constants.DB_CLEAR_FAILED
 import com.michael.common.Constants.GET_NEWS_ERROR_LOG
 import com.michael.common.Constants.LOAD_MORE_NEWS_ERROR_LOG
 import com.michael.common.Constants.NO_INTERNET
 import com.michael.common.Constants.SEARCH_NEWS_ERROR_LOG
-import com.michael.easylog.logInline
-import com.michael.easylog.logInlineNullable
 import com.michael.localdata.dao.NewsDao
 import com.michael.models.NewsFeedDomainModel
 import com.michael.network.provider.NetworkStateProvider
