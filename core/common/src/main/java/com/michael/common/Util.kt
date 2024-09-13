@@ -23,3 +23,8 @@ fun String.toReadableDate(): String {
     // Return the formatted date string
     return dateTime.format(outputFormatter)
 }
+
+
+fun Int.randomFrom(): Int {
+    return (this + 100 .. 1000000000).random()
+}

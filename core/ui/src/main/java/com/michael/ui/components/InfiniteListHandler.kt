@@ -23,7 +23,6 @@ fun InfiniteListHandler(
             }
         }
     }
-
     LaunchedEffect(shouldLoadMore.value) {
         if (shouldLoadMore.value) {
             loadMore()

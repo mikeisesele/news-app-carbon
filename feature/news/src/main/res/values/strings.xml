@@ -17,4 +17,5 @@
     <string name="published_on">Published on</string>
     <string name="description">Description</string>
     <string name="no_result_matches_your_search_query">No Result Matches your search query: %1$s</string>
+    <string name="reload_news">Reload News</string>
 </resources>

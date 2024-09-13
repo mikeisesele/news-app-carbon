@@ -17,6 +17,7 @@ import com.michael.news.domain.contract.NewsFeedState
 import com.michael.news.domain.contract.NewsFeedViewAction
 import com.michael.news.domain.mappers.toUiModel
 import com.michael.ui.extensions.collectBy
+import com.michael.ui.extensions.singleFlowOnItemReceivedInScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -35,6 +36,7 @@ internal class NewsFeedViewModel @Inject constructor(
             NewsFeedViewAction.GetNewsFeed -> getNewsFeed()
             is NewsFeedViewAction.UpdateSearchQuery -> updateSearchQuery(viewAction.query)
             is NewsFeedViewAction.SearchNewsFeed -> searchNewsFeed()
+            is NewsFeedViewAction.LoadMoreNews -> loadMoreNews()
         }
     }
 
@@ -66,6 +68,17 @@ internal class NewsFeedViewModel @Inject constructor(
         }
     }
 
+    private fun loadMoreNews() {
+        launch {
+            newsFeedRepository.loadMoreNews().singleFlowOnItemReceivedInScope(
+                onStart = ::onMoreLoading,
+                onItemReceived = ::processPaginatedNewsFeedResponse,
+                onError = ::onError,
+                coroutineScope = this
+            )
+        }
+    }
+
 
     private fun onLoading() {
         updateState { state ->
@@ -75,6 +88,13 @@ internal class NewsFeedViewModel @Inject constructor(
             )
         }
     }
+    private fun onMoreLoading() {
+            updateState { state ->
+                state.copy(
+                    isLoadingMore = true,
+                )
+            }
+        }
 
     private fun onError(error: Throwable) {
 
@@ -88,6 +108,7 @@ internal class NewsFeedViewModel @Inject constructor(
         updateState { state ->
             state.copy(
                 isLoading = false,
+                isLoadingMore = false,
                 errorState = MessageState.Inline(errorMessage)
             )
         }
@@ -120,7 +141,15 @@ internal class NewsFeedViewModel @Inject constructor(
                 searchQueryResponse = newsFeed.toUiModel().toImmutableList()
             )
         }
-
     }
 
+    private fun processPaginatedNewsFeedResponse(newsFeed: List<NewsFeedDomainModel>) {
+        val updatedList = (currentState.newsFeedList + newsFeed.toUiModel().toImmutableList()).toImmutableList()
+        updateState { state ->
+            state.copy(
+                isLoadingMore = false,
+                newsFeedList = updatedList
+            )
+        }
+    }
 }

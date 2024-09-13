@@ -15,6 +15,7 @@ import com.michael.ui.utils.boldTexStyle
 
 @Composable
 fun CenteredText(
+    buttonText: String,
     text: String, onCenteredTextAction: (() -> Unit)? = null
 ) {
     CenteredColumn {
@@ -30,7 +31,7 @@ fun CenteredText(
 
         if (onCenteredTextAction != null) {
             Button(onClick = onCenteredTextAction) {
-                Text(text = stringResource(R.string.retry))
+                Text(text = buttonText)
             }
         }
     }
