@@ -19,7 +19,7 @@ class NewsDetailMapperTest {
         // Then
         result.shouldBeInstanceOf<NewsDetailUiModel>()
         with(result) {
-            id shouldBe fakeNewsDomainModel.id
+            articleId shouldBe fakeNewsDomainModel.articleId
             creator shouldBe fakeNewsDomainModel.creator
             category shouldBe fakeNewsDomainModel.category
 

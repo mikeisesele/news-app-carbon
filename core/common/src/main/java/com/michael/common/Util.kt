@@ -32,5 +32,11 @@ fun Int.randomFrom(): Int {
 // Extension function to clean the message
 fun String.cleanMessage(): String {
     val parts = this.split(" ")
-    return parts.drop(2).joinToString(" ")
+    // Ensure the message starts with HTTP and contains a 3-digit code before the message
+    val errorCode = parts.getOrNull(1) ?: "XXX"  // Default to "XXX" if the second part is missing
+    return if (parts.firstOrNull() == "HTTP" && errorCode.matches(Regex("\\d{3}"))) {
+        parts.drop(2).joinToString(" ")
+    } else {
+        this  // Return the original string if it doesn't meet the condition
+    }
 }

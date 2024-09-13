@@ -9,7 +9,7 @@ import com.michael.newsdetail.presentation.model.NewsDetailUiModel
 internal object TestFakeDataFactory {
 
     val fakeNewsDetailUiModel = NewsDetailUiModel(
-        id = 1,
+        articleId = "ai-2024-01",
         category = listOf("Technology", "AI"),
         creator = listOf("Jane Doe", "John Smith"),
         description = "A comprehensive look at the latest advancements in artificial intelligence, exploring new technologies and their impact.",
@@ -25,7 +25,7 @@ internal object TestFakeDataFactory {
 
     // Single fake NewsFeedUiModel instance
     val fakeNewsUiModel = NewsFeedUiModel(
-        id = 1,
+        articleId = "exampleId1",
         category = listOf("Technology", "Business"),
         creator = listOf("John Doe", "Jane Smith"),
         description = "A detailed description of the latest advancements in technology and business strategies.",
@@ -38,7 +38,7 @@ internal object TestFakeDataFactory {
     // List of fake NewsFeedUiModel instances
     val fakeNewsUiModelList = listOf(
         NewsFeedUiModel(
-            id = 2,
+            articleId = "exampleId2",
             category = listOf("Health", "Science"),
             creator = listOf("Alice Brown", "Bob Green"),
             description = "An insightful article about recent breakthroughs in medical science.",
@@ -48,7 +48,7 @@ internal object TestFakeDataFactory {
             title = "Medical Breakthroughs in 2024"
         ),
         NewsFeedUiModel(
-            id = 3,
+            articleId = "exampleId3",
             category = listOf("Sports", "Entertainment"),
             creator = listOf("Charlie Blue"),
             description = "The top highlights from the recent sports events and entertainment news.",
@@ -58,7 +58,7 @@ internal object TestFakeDataFactory {
             title = "Top Sports and Entertainment Highlights"
         ),
         NewsFeedUiModel(
-            id = 4,
+            articleId = "exampleId4",
             category = listOf("Politics", "Economy"),
             creator = listOf("David White", "Eve Black"),
             description = "A comprehensive overview of the current political and economic climate.",
@@ -71,7 +71,6 @@ internal object TestFakeDataFactory {
 
     // Single fake NewsFeedDomainModel instance
     val fakeNewsDomainModel = NewsFeedDomainModel(
-        id = 1,
         aiOrg = "OpenAI",
         aiRegion = "US",
         aiTag = "Technology",
@@ -101,7 +100,6 @@ internal object TestFakeDataFactory {
     // List of fake NewsFeedDomainModel instances
     val fakeNewsDomainModelList = listOf(
         NewsFeedDomainModel(
-            id = 2,
             aiOrg = "Google AI",
             aiRegion = "Global",
             aiTag = "Health",
@@ -128,7 +126,6 @@ internal object TestFakeDataFactory {
             title = "AI's Role in Healthcare"
         ),
         NewsFeedDomainModel(
-            id = 3,
             aiOrg = "DeepMind",
             aiRegion = "EU",
             aiTag = "Research",
@@ -159,7 +156,6 @@ internal object TestFakeDataFactory {
     // List of fake NewsFeedDomainModel instances
     val fakeMoreNewsDomainModelList = listOf(
         NewsFeedDomainModel(
-            id = 4,
             aiOrg = "Google AI",
             aiRegion = "Global",
             aiTag = "Health",
@@ -186,7 +182,6 @@ internal object TestFakeDataFactory {
             title = "AI's Role in Healthcare"
         ),
         NewsFeedDomainModel(
-            id = 5,
             aiOrg = "DeepMind",
             aiRegion = "EU",
             aiTag = "Research",

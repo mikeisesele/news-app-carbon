@@ -99,8 +99,8 @@ internal class NewsFeedViewModel @Inject constructor(
         }
 
     private fun onError(error: Throwable) {
-        val errorMessage = error.message?.cleanMessage().ifNullSetDefault {
-            error.localizedMessage?.cleanMessage()?.ifEmpty {
+        val errorMessage = error.message.ifNullSetDefault {
+            error.localizedMessage.ifEmpty {
                 stringProvider.getString(
                     R.string.something_went_wrong
                 )
@@ -111,7 +111,7 @@ internal class NewsFeedViewModel @Inject constructor(
             state.copy(
                 isLoading = false,
                 isLoadingMore = false,
-                errorState = MessageState.Inline(errorMessage)
+                errorState = MessageState.Inline(errorMessage.cleanMessage())
             )
         }
         dispatchViewEvent(

@@ -71,12 +71,12 @@ class NewsDetailViewModelTest :BaseTest() {
             initializeViewModel()
             newsDetailViewModel.state.test {
                 awaitItem() // initial state
-                newsDetailViewModel.onViewAction(NewsDetailViewAction.GetNewsDetail(1))
+                newsDetailViewModel.onViewAction(NewsDetailViewAction.GetNewsDetail("123456"))
                 awaitItem() // loading state
                 with(awaitItem()) { // news list has been loaded
                     newsDetail.shouldNotBeNull()
                     newsDetail.shouldBe(fakeNewsDomainModel.toDetailUiModel()) // mapping is successful
-                    newsDetail.id shouldBe 1
+                    newsDetail.articleId shouldBe "123456"
                 }
             }
         }
@@ -92,7 +92,7 @@ class NewsDetailViewModelTest :BaseTest() {
             initializeViewModel()
             newsDetailViewModel.state.test {
                 awaitItem() // initial state
-                newsDetailViewModel.onViewAction(NewsDetailViewAction.GetNewsDetail(1))
+                newsDetailViewModel.onViewAction(NewsDetailViewAction.GetNewsDetail("123456"))
                 awaitItem() // loading state
                 with(awaitItem()) { // error from repo
                     isLoading.shouldBeFalse()
