@@ -125,17 +125,19 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onNewsCardClick: (String) -> U
                 !state.isLoading &&
                 state.searchQuery.isNotEmpty()
             ) {
-                CenteredText(
-                    buttonText = stringResource(R.string.reload_news),
-                    text = stringResource(
-                        R.string.no_result_matches_your_search_query,
-                        state.searchQuery
-                    ),
-                    onCenteredTextAction = {
-                        searchBarComponentVisible = false
-                        viewModel.onViewAction(NewsFeedViewAction.UpdateSearchQuery(""))
-                        viewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
-                    })
+                if (!searchBarComponentVisible &&  state.searchQuery.isNotEmpty()) {
+                    CenteredText(
+                        buttonText = stringResource(R.string.reload_news),
+                        text = stringResource(
+                            R.string.no_result_matches_your_search_query,
+                            state.searchQuery
+                        ),
+                        onCenteredTextAction = {
+                            searchBarComponentVisible = false
+                            viewModel.onViewAction(NewsFeedViewAction.UpdateSearchQuery(""))
+                            viewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
+                        })
+                }
             } else {
                 InfiniteListHandler(listState = listState, loadMore = {
                     viewModel.onViewAction(NewsFeedViewAction.LoadMoreNews)
