@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -52,7 +53,7 @@ import kotlinx.serialization.Serializable
 object NewsFeedScreenDestination
 
 @Composable
-fun NewsFeedScreen(modifier: Modifier = Modifier, onNewsCardClick: (Int) -> Unit) {
+fun NewsFeedScreen(modifier: Modifier = Modifier, onNewsCardClick: (String) -> Unit) {
 
     val viewModel: NewsFeedViewModel = hiltViewModel()
     val state by rememberStateWithLifecycle(viewModel.state)
@@ -114,7 +115,10 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onNewsCardClick: (Int) -> Unit
             if (state.newsFeedList.isEmpty() && !state.isLoading) {
                 CenteredText(
                     buttonText = stringResource(R.string.retry),
-                    text = errorMessage?.message.orEmpty()
+                    text = errorMessage?.message.orEmpty(),
+                    onCenteredTextAction = {
+                        viewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
+                    }
                 )
             } else if (
                 state.searchQueryResponse.isEmpty() &&
@@ -144,7 +148,7 @@ fun NewsFeedScreen(modifier: Modifier = Modifier, onNewsCardClick: (Int) -> Unit
                         start = 16.dp, end = 16.dp, bottom = 8.dp, top = topPadding
                     )
                 ) {
-                    items(state.newsFeedList, key = { it.id.randomFrom() }) { article ->
+                    items(state.newsFeedList, key = { it.articleId }) { article ->
                         NewsItem(
                             article = article, onNewsCardClick = onNewsCardClick
                         ) // Custom composable for each news item

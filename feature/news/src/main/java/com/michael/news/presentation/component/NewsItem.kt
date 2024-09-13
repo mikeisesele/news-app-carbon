@@ -23,10 +23,10 @@ import com.michael.ui.utils.boldTexStyle
 import com.michael.ui.utils.mediumTexStyle
 
 @Composable
-internal fun NewsItem(article: NewsFeedUiModel, onNewsCardClick: (Int) -> Unit) {
+internal fun NewsItem(article: NewsFeedUiModel, onNewsCardClick: (String) -> Unit) {
     Card(
         modifier = Modifier
-            .clickable { onNewsCardClick(article.id) }
+            .clickable {onNewsCardClick(article.articleId) }
             .fillMaxWidth()
             .padding(vertical = 8.dp)
             .background(MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(8.dp)),

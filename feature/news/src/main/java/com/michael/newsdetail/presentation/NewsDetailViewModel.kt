@@ -5,7 +5,10 @@ import com.michael.base.contract.ViewEvent
 import com.michael.base.model.MessageState
 import com.michael.base.providers.DispatcherProvider
 import com.michael.base.providers.StringProvider
+import com.michael.common.cleanMessage
 import com.michael.easylog.ifNullSetDefault
+import com.michael.easylog.logInline
+import com.michael.easylog.logInlineNullable
 import com.michael.feature.news.R
 import com.michael.models.NewsFeedDomainModel
 import com.michael.news.domain.NewsFeedRepository
@@ -33,7 +36,7 @@ internal class NewsDetailViewModel @Inject constructor(
         }
     }
 
-    private fun getNewsDetail(id: Int) {
+    private fun getNewsDetail(id: String) {
         launch {
             newsRepository.getNewsDetail(id).collectBy(
                 onStart = ::onLoading,
@@ -44,6 +47,7 @@ internal class NewsDetailViewModel @Inject constructor(
     }
 
     private fun processNewsDetail(newsDetail: NewsFeedDomainModel) {
+        newsDetail.logInline("newsDetail")
         updateState { state ->
             state.copy(
                 isLoading = false,
@@ -61,20 +65,20 @@ internal class NewsDetailViewModel @Inject constructor(
     }
 
     private fun onError(error: Throwable) {
-
+        error.logInlineNullable()
         updateState { state ->
             state.copy(
                 isLoading = false,
             )
         }
 
-        val errorMessage = error.message.ifNullSetDefault {
-            error.localizedMessage.ifEmpty {
+        val errorMessage = error.message?.cleanMessage().ifNullSetDefault {
+            error.localizedMessage?.cleanMessage()?.ifEmpty {
                 stringProvider.getString(
                     R.string.something_went_wrong
                 )
             }
-        }
+        }.orEmpty()
 
         dispatchViewEvent(
             ViewEvent.Effect(

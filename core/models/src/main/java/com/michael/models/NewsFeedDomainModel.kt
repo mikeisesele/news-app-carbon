@@ -5,12 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "news_feed")
 data class NewsFeedDomainModel(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val articleId: String = "",
     val aiOrg: String? = null,
     val aiRegion: String? = null,
     val aiTag: String? = null,
-    val articleId: String? = null,
     val category: List<String>? = null,
     val content: String? = null,
     val country: List<String>? = null,

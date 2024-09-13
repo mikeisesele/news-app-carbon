@@ -5,6 +5,8 @@ import com.michael.base.contract.ViewEvent
 import com.michael.base.model.MessageState
 import com.michael.base.providers.DispatcherProvider
 import com.michael.base.providers.StringProvider
+import com.michael.common.cleanMessage
+import com.michael.common.emptyImmutableList
 import com.michael.common.toImmutableList
 import com.michael.easylog.ifNullSetDefault
 import com.michael.easylog.logInline
@@ -97,14 +99,14 @@ internal class NewsFeedViewModel @Inject constructor(
         }
 
     private fun onError(error: Throwable) {
-
-        val errorMessage = error.message.ifNullSetDefault {
-            error.localizedMessage.ifEmpty {
+        val errorMessage = error.message?.cleanMessage().ifNullSetDefault {
+            error.localizedMessage?.cleanMessage()?.ifEmpty {
                 stringProvider.getString(
                     R.string.something_went_wrong
                 )
             }
-        }
+        }.orEmpty()
+
         updateState { state ->
             state.copy(
                 isLoading = false,

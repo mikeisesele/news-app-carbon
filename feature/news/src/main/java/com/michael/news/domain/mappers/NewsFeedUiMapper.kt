@@ -13,7 +13,6 @@ internal fun List<NewsFeedDomainModel>.toUiModel(): ImmutableList<NewsFeedUiMode
 internal fun NewsFeedDomainModel.toUiModel(): NewsFeedUiModel {
     return with(this) {
         NewsFeedUiModel(
-            id = id,
             category = category.orEmpty(),
             creator = creator.orEmpty(),
             description = description.orEmpty(),
@@ -21,6 +20,7 @@ internal fun NewsFeedDomainModel.toUiModel(): NewsFeedUiModel {
             keywords = keywords.orEmpty(),
             pubDate = pubDate.orEmpty(),
             title = title.orEmpty(),
+            articleId = articleId
         )
     }
 }

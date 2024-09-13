@@ -28,3 +28,9 @@ fun String.toReadableDate(): String {
 fun Int.randomFrom(): Int {
     return (this + 100 .. 1000000000).random()
 }
+
+// Extension function to clean the message
+fun String.cleanMessage(): String {
+    val parts = this.split(" ")
+    return parts.drop(2).joinToString(" ")
+}

@@ -1,7 +1,7 @@
 package com.michael.news.presentation.model
 
 internal data class NewsFeedUiModel(
-    val id: Int,
+    val articleId: String,
     val category: List<String>,
     val creator: List<String>,
     val description: String,

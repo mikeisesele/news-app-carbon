@@ -81,14 +81,7 @@ fun BaseScreen(
                 LoadingAnimation()
             }
         }
-//        else if (state.errorState != null && state.errorState is MessageState.Inline) {
-//            CenteredColumn {
-//                Text(text = (state.errorState as MessageState.Inline).message)
-//            }
-//        }
     else {
-
-            // Pass the paddingValues to your content
             Box(
                 modifier = Modifier
                     .navigationBarsPadding()

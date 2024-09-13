@@ -1,5 +1,6 @@
 package com.michael.newsdetail.domain.mapper
 
+import com.michael.easylog.logInline
 import com.michael.models.NewsFeedDomainModel
 import com.michael.news.presentation.model.NewsFeedUiModel
 import com.michael.newsdetail.presentation.model.NewsDetailUiModel
@@ -8,7 +9,7 @@ import com.michael.newsdetail.presentation.model.NewsDetailUiModel
 internal fun NewsFeedDomainModel.toDetailUiModel(): NewsDetailUiModel {
     return with(this) {
         NewsDetailUiModel(
-            id = id,
+            articleId = articleId.orEmpty(),
             category = category.orEmpty(),
             creator = creator.orEmpty(),
             description = description.orEmpty(),

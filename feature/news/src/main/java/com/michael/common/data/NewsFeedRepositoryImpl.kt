@@ -1,6 +1,8 @@
 package com.michael.common.data
 
 import com.michael.base.providers.DispatcherProvider
+import com.michael.common.Constants.DB_ALREADY_CLEARED
+import com.michael.common.Constants.DB_CLEAR_FAILED
 import com.michael.common.Constants.GET_NEWS_ERROR_LOG
 import com.michael.common.Constants.LOAD_MORE_NEWS_ERROR_LOG
 import com.michael.common.Constants.NO_INTERNET
@@ -36,7 +38,9 @@ internal class NewsFeedRepositoryImpl @Inject constructor(
             operation = {
                 resetPagination()
                 if (!networkStateProvider.isConnected) {
-                    newsFeedDao.getNews()
+                    newsFeedDao.getNews().ifEmpty {
+                        throw Exception(NO_INTERNET)
+                    }
                 } else {
                     val apiResponse = apiService.getNewsFeed()
                     nextPage = apiResponse.nextPage
@@ -85,8 +89,7 @@ internal class NewsFeedRepositoryImpl @Inject constructor(
 
     }.flowOn(dispatcherProvider.io)
 
-    override suspend fun getNewsDetail(id: Int): Flow<NewsFeedDomainModel> = flow {
-
+    override suspend fun getNewsDetail(id: String): Flow<NewsFeedDomainModel> = flow {
         emit(
             newsFeedDao
                 .getNewsDetail(id)

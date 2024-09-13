@@ -39,10 +39,10 @@ import com.michael.ui.extensions.rememberStateWithLifecycle
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class NewsDetailScreenDestination(val newsId: Int)
+data class NewsDetailScreenDestination(val newsId: String)
 
 @Composable
-fun NewsDetailScreen(newsId: Int, modifier: Modifier = Modifier, onBackClick: () -> Unit) {
+fun NewsDetailScreen(newsId: String, modifier: Modifier = Modifier, onBackClick: () -> Unit) {
 
     val viewModel: NewsDetailViewModel = hiltViewModel()
     val state by rememberStateWithLifecycle(viewModel.state)

@@ -11,7 +11,7 @@ import com.michael.models.NewsFeedDomainModel
 
 const val DB_NAME = "carbon_news_database"
 
-@Database(entities = [NewsFeedDomainModel::class], version = 1, exportSchema = false)
+@Database(entities = [NewsFeedDomainModel::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
 

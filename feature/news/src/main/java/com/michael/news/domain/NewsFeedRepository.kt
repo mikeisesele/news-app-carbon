@@ -9,6 +9,6 @@ internal interface NewsFeedRepository {
 
     suspend fun searchNewsFeed(query: String) : Flow<List<NewsFeedDomainModel>>
 
-    suspend fun getNewsDetail(id: Int): Flow<NewsFeedDomainModel>
+    suspend fun getNewsDetail(id: String): Flow<NewsFeedDomainModel>
 
 }
