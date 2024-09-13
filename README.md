@@ -15,6 +15,23 @@ To be able to develop the app you need to have
 - general git setup,
 - cloned the repository of News App application,
 
+#### API KEY
+
+My API key has been included in gragle.properties. As it's an assessment project I have decided to leave it there so reviewing team members can focus on running the app and reviewing the code. 
+
+But since it is a free API, there is a rate limiter. only a specific amount of requests can be allowed in a given time frame.
+
+in case this happens, you can create your own api key by signing up to https://newsdata.io/, it looks something like this `pub_5324732474707aa48524d6f83145cf364gf442`
+copy the api key.. and paste it in gradle.properties. like so `NEWS_API_KEY="pYOUR_COPIED_API_KEY"`
+
+Free Plan has 30 credits every 15 minutes.
+
+If you exceed the rate limit for your plan, the API will return a "Rate Limit Exceeded" error and you will not be able to make any further requests until the rate limit resets after 15 minutes.
+
+more documentation here
+Docs(https://newsdata.io/documentation/#rate-limit)
+
+
 ##  Dependencies
 The app uses pre-compiled gradle scripts to share dependencies between different modules.
 The app has a multi-module structure, with 2 major groups: core and feature modules. To make the builds faster, scripts are pre-compiled once and reused in the respective modules.
