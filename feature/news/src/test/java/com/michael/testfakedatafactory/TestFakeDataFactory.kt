@@ -156,6 +156,64 @@ internal object TestFakeDataFactory {
         )
     )
 
+    // List of fake NewsFeedDomainModel instances
+    val fakeMoreNewsDomainModelList = listOf(
+        NewsFeedDomainModel(
+            id = 4,
+            aiOrg = "Google AI",
+            aiRegion = "Global",
+            aiTag = "Health",
+            articleId = "7891011",
+            category = listOf("Health", "AI"),
+            content = "AI's impact on healthcare is growing with significant advancements.",
+            country = listOf("US", "UK"),
+            creator = listOf("Alice Brown"),
+            description = "How AI is revolutionizing healthcare systems worldwide.",
+            duplicate = false,
+            imageUrl = "https://example.com/healthcare_ai.jpg",
+            keywords = listOf("AI", "Healthcare", "Innovation"),
+            language = "English",
+            link = "https://example.com/healthcare_ai",
+            pubDate = "2024-09-10",
+            pubDateTZ = "2024-09-10T18:30:00Z",
+            sentiment = "Neutral",
+            sentimentStats = "Sentiment Analysis Stats",
+            sourceIcon = "https://example.com/health_icon.png",
+            sourceId = "source456",
+            sourceName = "Health News",
+            sourcePriority = 2,
+            sourceUrl = "https://example.com",
+            title = "AI's Role in Healthcare"
+        ),
+        NewsFeedDomainModel(
+            id = 5,
+            aiOrg = "DeepMind",
+            aiRegion = "EU",
+            aiTag = "Research",
+            articleId = "1121314",
+            category = listOf("Science", "AI"),
+            content = "DeepMind's latest research on AI models and their applications in science.",
+            country = listOf("Germany", "France"),
+            creator = listOf("Bob Green"),
+            description = "Latest research and development in AI from DeepMind.",
+            duplicate = true,
+            imageUrl = "https://example.com/deepmind_research.jpg",
+            keywords = listOf("AI", "Science", "Research"),
+            language = "German",
+            link = "https://example.com/deepmind_research",
+            pubDate = "2024-09-09",
+            pubDateTZ = "2024-09-09T15:00:00Z",
+            sentiment = "Positive",
+            sentimentStats = "Sentiment Analysis Stats",
+            sourceIcon = "https://example.com/science_icon.png",
+            sourceId = "source789",
+            sourceName = "Science News",
+            sourcePriority = 1,
+            sourceUrl = "https://example.com",
+            title = "DeepMind's AI Research"
+        )
+    )
+
      // Fake single NewsFeedApiResult instance
     val fakeNewsFeedApiResult = NewsFeedApiResult(
         ai_org = "OpenAI",

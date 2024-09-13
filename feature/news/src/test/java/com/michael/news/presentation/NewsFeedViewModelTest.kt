@@ -8,21 +8,27 @@ import com.michael.news.domain.NewsFeedRepository
 import com.michael.news.domain.contract.NewsFeedSideEffect
 import com.michael.news.domain.contract.NewsFeedViewAction
 import com.michael.news.domain.mappers.toUiModel
+import com.michael.testfakedatafactory.TestFakeDataFactory.fakeMoreNewsDomainModelList
 import com.michael.testfakedatafactory.TestFakeDataFactory.fakeNewsDomainModel
 import com.michael.testfakedatafactory.TestFakeDataFactory.fakeNewsDomainModelList
 import com.michael.testing.BaseTest
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.collections.shouldNotBeEmpty
+import io.kotest.matchers.ints.shouldBeLessThan
 import io.kotest.matchers.shouldBe
+import io.kotest.matchers.shouldNotBe
 import io.kotest.matchers.string.shouldBeEmpty
 import io.kotest.matchers.string.shouldNotBeEmpty
 import io.kotest.matchers.types.shouldBeInstanceOf
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import org.junit.Test
+import org.junit.jupiter.api.AfterAll
 
 internal class NewsFeedViewModelTest : BaseTest() {
     private lateinit var newsFeedViewModel: NewsFeedViewModel
@@ -38,6 +44,8 @@ internal class NewsFeedViewModelTest : BaseTest() {
             fakeNewsDomainModel,
         )
         coEvery { searchNewsFeed(any()) } returns flowOf(fakeNewsDomainModelList)
+
+        coEvery { loadMoreNews() } returns flowOf(fakeMoreNewsDomainModelList)
     }
 
 
@@ -138,4 +146,62 @@ internal class NewsFeedViewModelTest : BaseTest() {
                 }
             }
         }
+
+
+    @Test
+    fun `Given LoadMoreNews is called when success Then repository should return expected data`() =
+        startTest {
+            initializeViewModel()
+            newsFeedViewModel.state.test {
+                var currentListSize: Int
+                awaitItem() // initial state
+                newsFeedViewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
+                awaitItem() // loading state
+                with(awaitItem()) {
+                    currentListSize = newsFeedList.size
+                } // news list has been loaded
+                newsFeedViewModel.onViewAction(NewsFeedViewAction.LoadMoreNews)
+                awaitItem().isLoadingMore.shouldBe(true) // loading state
+                with(awaitItem()) {// more news list has been loaded
+                    newsFeedList.shouldNotBeEmpty()
+                    isLoadingMore.shouldBe(false)
+                    currentListSize shouldNotBe newsFeedList.size
+                    currentListSize shouldBeLessThan newsFeedList.size
+                    newsFeedList.shouldBe((fakeNewsDomainModelList + fakeMoreNewsDomainModelList).map { it.toUiModel() }) // mapping is successful
+                }
+            }
+        }
+
+    @Test
+    fun `Given LoadMoreNews is called when error Then repository should return error data`() =
+        startTest {
+            coEvery {
+                newsRepository.getNewsFeed()
+            } returns flow {
+                throw IllegalStateException("error") // force repo response
+            }
+            initializeViewModel()
+            newsFeedViewModel.state.test {
+                awaitItem() // initial state
+                newsFeedViewModel.onViewAction(NewsFeedViewAction.GetNewsFeed)
+                awaitItem() // loading state
+                awaitItem() // news list has been loaded
+                newsFeedViewModel.onViewAction(NewsFeedViewAction.LoadMoreNews)
+                awaitItem().isLoadingMore.shouldBe(true) // loading state
+                with(awaitItem()) {// more news list has been loaded
+                    isLoadingMore.shouldBe(false)
+                }
+            }
+            newsFeedViewModel.events.test {
+                with(awaitItem()) {
+                    shouldBeInstanceOf<ViewEvent.Effect>()
+                    effect.shouldBe(
+                        NewsFeedSideEffect.ShowErrorMessage(
+                            errorMessageState = MessageState.Inline(errorMessage)
+                        ),
+                    )
+                }
+            }
+        }
+
 }
