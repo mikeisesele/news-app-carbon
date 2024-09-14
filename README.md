@@ -11,7 +11,7 @@ News app is written in Kotlin, with the Android SDK and the Jetpack Compose UI F
 This application uses mostly standard processes and libraries.
 
 To be able to develop the app you need to have
--  the latest Android Studio installed, the latest Kotlin (2.0.0), and the latest Android Gradle Plugin 8.4.0 (gradle-8.6-bin.zip) versions.
+-  the latest stable Android Studio installed (Android Studio Koala) or newer, the latest Kotlin (2.0.0), and the latest Android Gradle Plugin 8.4.0 (gradle-8.6-bin.zip) versions.
 - general git setup,
 - cloned the repository of News App application,
 
