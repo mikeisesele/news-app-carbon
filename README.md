@@ -8,12 +8,12 @@ https://github.com/user-attachments/assets/ce1425f8-4cfa-4b74-b12f-c37712ab39e2
 News app is written in Kotlin, with the Android SDK and the Jetpack Compose UI Framework.
 
 ## Project setup & requirements
-This application uses mostly standard processes and libraries.
+This application uses standard processes and libraries.
 
-To be able to develop the app you need to have
+To be able to run the app you need to have
 -  the latest stable Android Studio installed (Android Studio Koala) or newer, the latest Kotlin (2.0.0), and the latest Android Gradle Plugin 8.4.0 (gradle-8.6-bin.zip) versions.
 - general git setup,
-- cloned the repository of News App application,
+- clone the repository of News App application,
 
 #### API KEY
 
