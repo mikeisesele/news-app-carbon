@@ -17,7 +17,7 @@ To be able to run the app you need to have
 
 #### API KEY
 
-My API key has been included in gragle.properties. As it's an assessment project I have decided to leave it there so reviewing team members can focus on running the app and reviewing the code. 
+My API key has been included in gragle.properties. 
 
 But since it is a free API, there is a rate limiter. only a specific amount of requests can be allowed in a given time frame.
 
