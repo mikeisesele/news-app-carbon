@@ -158,16 +158,6 @@ Repo(https://github.com/cashapp/turbine)
 
 
 ```
-room-ktx
-room-runtime
-room-compiler
-kapt-room-compiler
-```
-EasyLog is a lightweight, simple, and flexible logging utility for Android applications. It provides a concise syntax for logging messages directly from objects and supports various default and custom loggers.
-Repo(https://github.com/mikeisesele/easylog)
-```
-
-```
 easylog
 ```
 EasyLog is a lightweight, simple, and flexible logging utility for Android applications. It provides a concise syntax for logging messages directly from objects and supports various default and custom loggers.
